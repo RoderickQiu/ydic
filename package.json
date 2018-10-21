@@ -1,0 +1,19 @@
+{
+  "name": "yourdic",
+  "version": "0.0.1",
+  "description": "Your dictionary.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoderickQiu/yDic.git"
+  },
+  "author": "RoderickQiu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RoderickQiu/yDic/issues"
+  },
+  "homepage": "https://github.com/RoderickQiu/yDic#readme"
+}
