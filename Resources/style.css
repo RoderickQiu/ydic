@@ -1,0 +1,14 @@
+@font-face{
+    font-family: "SHS";
+    src: url('SourceHanSansCN-Normal.otf');
+}
+
+body{
+    font-family: "SHS", sans-serif;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateY(-30%);
+    transform: translateX(-50%);
+    text-align: center;
+}

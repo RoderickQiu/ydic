@@ -12,8 +12,6 @@
   },
   "author": "RoderickQiu",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/RoderickQiu/yDic/issues"
-  },
-  "homepage": "https://github.com/RoderickQiu/yDic#readme"
+  "icon": "Resources/icon.png",
+  "homepage": "https://github.com/RoderickQiu/yDic/blob/master/README.md"
 }
