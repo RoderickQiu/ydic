@@ -2,7 +2,7 @@
   "name": "yourdic",
   "version": "0.0.1",
   "description": "Your dictionary.",
-  "main": "main.js",
+  "main": "js/main.js",
   "scripts": {
     "start": "electron ."
   },
