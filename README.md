@@ -1,4 +1,4 @@
-# yourDic
+# yDic
 
 Your dictionary.
 
