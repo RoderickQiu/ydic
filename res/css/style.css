@@ -1,0 +1,61 @@
+/* global settings */
+body{
+    font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", sans-serif;
+    background-color: #fefefe;
+}
+
+/* main-search-box */
+#main{
+    transform: translateY(100px);
+    align-content: center;
+    text-align: center;
+}
+#main #searchbox{
+    border: none;
+    width: 540px;
+    height: 48px;
+    text-align: center;
+    font-size: 22px;
+    background-color: #fefefe;
+    font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", sans-serif;
+}
+#main input:focus{
+    background-image: url(../content/base.png);
+    outline:none;
+}
+
+/* dictionary-content-area */
+#dict{
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    align-content: center;
+    text-align: left;
+}
+
+/* bar */
+#btn{
+    position: absolute;
+    top: 10px;
+    right: 8px;
+}
+#logo{
+    position: absolute;
+    top: 10px;
+    left: 8px;
+}
+@keyframes showBtn{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+#bar a{
+    opacity: 0;
+}
+#bar:hover a{
+    animation: showBtn 0.5s;
+    opacity: 1;
+}/* 自动隐藏按钮 */
+#bar img{
+    width: 28px;
+    height: 28px;
+}

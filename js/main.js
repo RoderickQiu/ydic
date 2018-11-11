@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut } = require('electron')
+const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -6,10 +6,15 @@ let win
 
 function createWindow() {
   // 创建浏览器窗口。
-  win = new BrowserWindow({ width: 768, height: 270, frame: false})
+  win = new BrowserWindow({ width: 768, height: 270, frame: false, show: false, center: true })
 
   // 然后加载应用的 index.html。
   win.loadFile('index.html')
+
+  //在加载页面时，渲染进程第一次完成绘制时，会发出 ready-to-show 事件。在此事件后显示窗口将没有视觉闪烁
+  win.once('ready-to-show', () => {
+    win.show()
+  })
 
   // 当 window 被关闭，这个事件会被触发。
   win.on('closed', () => {
@@ -38,5 +43,7 @@ app.on('activate', () => {
   }
 })
 
-  // 在这个文件中，你可以续写应用剩下主进程代码。
-  // 也可以拆分成几个文件，然后用 require 导入。
+//登录窗口最小化，通过ipc传递
+ipcMain.on('window-min', function () {
+  win.minimize();
+})

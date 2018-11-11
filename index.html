@@ -1,22 +1,33 @@
 <!DOCTYPE html>
+<html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="res/style.css" />
+    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
     <title>yDic</title>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>
+        function minimize() {
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-min');
+        }//最小化窗口，使用ipcRenderer方案
+    </script>
 </head>
 
 <body>
-    <div id="main">
-        <form action="#"><input type="text" id="searchbox" name="word" autofocus></form>
-        <br/>
+    <div id="bar">
+        <div id="logo"><a href="#"><img src="res/icons/yD-black.png" /></a></div>
+        <div id="btn">
+            <a href="#"><img src="res/icons/settings.png" /></a>
+            <a href="#"><img src="res/icons/about.png" /></a>
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" /></a>
+        </div>
     </div>
-    <div id="btn">
-        <a href="#"><img src="res/icons/settings.png" /></a>
-        <a href="#"><img src="res/icons/about.png" /></a>
-        <a href="javascript:window.close()"><img src="res/icons/close.png" /></a>
+    <div id="main">
+        <form action="searcher.html"><input type="text" id="searchbox" name="word" autofocus></form>
+        <br />
     </div>
 </body>
 

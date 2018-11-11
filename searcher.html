@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
+    <title>yDic</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/md5.js"></script>
+    <script>
+        function minimize() {
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-min');
+        }//最小化窗口，使用ipcRenderer方案
+        $(document).ready(function () {
+            s = location.search.substr(1);
+            a = s.split('&');
+            var wordIn = '';
+            for (i in a) {
+                b = a[i].split('=');
+                wordIn = b[1];
+            }
+            var appKey = '44d3c65e009191c5';
+            var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
+            var salt = (new Date).getTime();
+            var from = 'EN';
+            var to = 'zh-CHS';
+            var str1 = appKey + wordIn + salt + key;
+            var sign = md5(str1);
+            $.ajax({
+                url: 'https://openapi.youdao.com/api',
+                type: 'get',
+                dataType: 'jsonp',
+                data: {
+                    q: wordIn,
+                    appKey: appKey,
+                    salt: salt,
+                    from: from,
+                    to: to,
+                    sign: sign
+                },
+                success: function (data) {
+                    console.log(data);
+                    var parentDiv = document.getElementById("dict");
+                    var wordShowDiv = document.createElement("h1");
+                    wordShowDiv.innerHTML = wordIn;
+                    parentDiv.appendChild(wordShowDiv);
+                    var explainDiv = document.createElement("p");
+                    var explains = "";
+                    if (data.basic) {
+                        for (i in data.basic.explains) explains += data.basic.explains[i] + "<br/>";
+                        explainDiv.innerHTML = explains;
+                    } else explainDiv.innerHTML = "Cannot find the word.";
+                    parentDiv.appendChild(explainDiv);
+                },
+                error: function () {
+                    document.getElementById("main").innerText = "Cannot receive data, please try again later.";
+                }
+            });
+        });//使用jQuery::jsonp获取远程词汇
+    </script>
+</head>
+
+<body>
+    <div id="bar">
+        <div id="logo"><a href="#"><img src="res/icons/yD-black.png" /></a></div>
+        <div id="btn">
+            <a href="#"><img src="res/icons/settings.png" /></a>
+            <a href="#"><img src="res/icons/about.png" /></a>
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" /></a>
+        </div>
+    </div>
+    <div id="dict">
+        <!-- 动态加入内容 -->
+    </div>
+</body>
+
+</html>
+
+<!-- 参考：https://ai.youdao.com/docs/doc-trans-api.s -->
