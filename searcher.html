@@ -9,12 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
     <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
     <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/md5.js"></script>
+    <script src="js/md5.min.js"></script>
     <script>
         function minimize() {
             var ipc = require('electron').ipcRenderer;
             ipc.send('window-min');
         }//最小化窗口，使用ipcRenderer方案
+        function pleaseEnterEnglishWord() {
+            var explainDiv = document.createElement("h2");
+            explainDiv.innerHTML = "<br/>Please enter an English word.<br/><a href=\"index.html\">Back</a>";
+            document.getElementById("dict").appendChild(explainDiv);
+        }
         $(document).ready(function () {
             s = location.search.substr(1);
             a = s.split('&');
@@ -23,50 +28,67 @@
                 b = a[i].split('=');
                 wordIn = b[1];
             }
-            var appKey = '44d3c65e009191c5';
-            var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
-            var salt = (new Date).getTime();
-            var from = 'EN';
-            var to = 'zh-CHS';
-            var str1 = appKey + wordIn + salt + key;
-            var sign = md5(str1);
-            $.ajax({
-                url: 'https://openapi.youdao.com/api',
-                type: 'get',
-                dataType: 'jsonp',
-                data: {
-                    q: wordIn,
-                    appKey: appKey,
-                    salt: salt,
-                    from: from,
-                    to: to,
-                    sign: sign
-                },
-                success: function (data) {
-                    console.log(data);
-                    var parentDiv = document.getElementById("dict");
-                    var wordShowDiv = document.createElement("h1");
-                    wordShowDiv.innerHTML = wordIn;
-                    parentDiv.appendChild(wordShowDiv);
-                    var explainDiv = document.createElement("p");
-                    var explains = "";
-                    if (data.basic) {
-                        for (i in data.basic.explains) explains += data.basic.explains[i] + "<br/>";
-                        explainDiv.innerHTML = explains;
-                    } else explainDiv.innerHTML = "Cannot find the word.";
-                    parentDiv.appendChild(explainDiv);
-                },
-                error: function () {
-                    document.getElementById("main").innerText = "Cannot receive data, please try again later.";
+            var wordUse = "";
+            for (i in wordIn) {
+                if (('a' <= wordIn[i] && wordIn[i] <= 'z') || ('0' <= wordIn[i] && wordIn[i] <= '9')) wordUse += wordIn[i];
+                else if ('A' <= wordIn[i] && wordIn[i] <= 'Z') wordUse += wordIn[i].toLowerCase();
+                else if (wordIn[i] == '+') wordUse += ' ';
+                else {
+                    wordUse = "";
+                    break;
                 }
-            });
+            }//拼写检查、输入字串格式化(并不完美，但够用)
+            if (wordUse == "") pleaseEnterEnglishWord();
+            else if (wordUse.length > 20) {
+                var explainDiv = document.createElement("h2");
+                explainDiv.innerHTML = "<br/>Sorry, but what you entered is too long.<br/><a href=\"index.html\">Back</a>";
+                document.getElementById("dict").appendChild(explainDiv);
+            } else {
+                var appKey = '44d3c65e009191c5';
+                var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
+                var salt = (new Date).getTime();
+                var from = 'EN';
+                var to = 'zh-CHS';
+                var str1 = appKey + wordUse + salt + key;
+                var sign = md5(str1);
+                $.ajax({
+                    url: 'https://openapi.youdao.com/api',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    data: {
+                        q: wordUse,
+                        appKey: appKey,
+                        salt: salt,
+                        from: from,
+                        to: to,
+                        sign: sign
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        var parentDiv = document.getElementById("dict");
+                        var wordShowDiv = document.createElement("h1");
+                        wordShowDiv.innerHTML = wordUse;
+                        parentDiv.appendChild(wordShowDiv);
+                        var explainDiv = document.createElement("p");
+                        var explains = "";
+                        if (data.basic) {
+                            for (i in data.basic.explains) explains += data.basic.explains[i] + "<br/>";
+                            explainDiv.innerHTML = explains;
+                        } else explainDiv.innerHTML = "Cannot find the word.";
+                        parentDiv.appendChild(explainDiv);
+                    },
+                    error: function () {
+                        document.getElementById("main").innerText = "Cannot receive data, please try again later.";
+                    }
+                });
+            }
         });//使用jQuery::jsonp获取远程词汇
     </script>
 </head>
 
 <body>
+    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" /></a></div>
     <div id="bar">
-        <div id="logo"><a href="#"><img src="res/icons/yD-black.png" /></a></div>
         <div id="btn">
             <a href="#"><img src="res/icons/settings.png" /></a>
             <a href="#"><img src="res/icons/about.png" /></a>
