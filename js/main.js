@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -6,7 +6,7 @@ let win
 
 function createWindow() {
   // 创建浏览器窗口。
-  win = new BrowserWindow({ width: 768, height: 270, frame: false, show: false, center: true })
+  win = new BrowserWindow({ width: 768, height: 300, frame: false, show: false, center: true, titleBarStyle: 'hidden' })//titleBarStyle: hidden, 返回一个隐藏标题栏的全尺寸内容窗口
 
   // 然后加载应用的 index.html。
   win.loadFile('index.html')
@@ -30,9 +30,6 @@ function createWindow() {
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', () => {
   createWindow();
-  globalShortcut.register('CommandOrControl+Alt+Shift+Y', () => {
-    createWindow();
-  })
 })
 
 app.on('activate', () => {
@@ -45,5 +42,5 @@ app.on('activate', () => {
 
 //登录窗口最小化，通过ipc传递
 ipcMain.on('window-min', function () {
-  win.minimize();
+  if (win != null) win.minimize();
 })

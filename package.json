@@ -1,5 +1,5 @@
 {
-  "name": "yourdic",
+  "name": "ydic",
   "version": "0.0.1",
   "description": "Your dictionary.",
   "main": "js/main.js",
@@ -8,10 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RoderickQiu/yDic.git"
+    "url": "https://github.com/RoderickQiu/yDic.git"
   },
   "author": "RoderickQiu",
   "license": "MIT",
   "icon": "Resources/icon.png",
-  "homepage": "https://github.com/RoderickQiu/yDic/blob/master/README.md"
+  "homepage": "https://github.com/RoderickQiu/yDic/blob/master/README.md",
+  "dependencies": {
+    "electron": ">=3.0.4"
+  }
 }

@@ -3,23 +3,15 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="res/css/style.css" />
-    <title>yDic</title>
+    <title>Search Result</title>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
     <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/md5.min.js"></script>
+    <script src="js/barCtrl.js"></script>
     <script>
-        function minimize() {
-            var ipc = require('electron').ipcRenderer;
-            ipc.send('window-min');
-        }//最小化窗口，使用ipcRenderer方案
-        function pleaseEnterEnglishWord() {
-            var explainDiv = document.createElement("h2");
-            explainDiv.innerHTML = "<br/>Please enter an English word.<br/><a href=\"index.html\">Back</a>";
-            document.getElementById("dict").appendChild(explainDiv);
-        }
         $(document).ready(function () {
             s = location.search.substr(1);
             a = s.split('&');
@@ -37,13 +29,10 @@
                     wordUse = "";
                     break;
                 }
-            }//拼写检查、输入字串格式化(并不完美，但够用)
-            if (wordUse == "") pleaseEnterEnglishWord();
-            else if (wordUse.length > 20) {
-                var explainDiv = document.createElement("h2");
-                explainDiv.innerHTML = "<br/>Sorry, but what you entered is too long.<br/><a href=\"index.html\">Back</a>";
-                document.getElementById("dict").appendChild(explainDiv);
-            } else {
+            }//拼写检查、输入字串格式化
+            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+            else if (wordUse.length > 30) document.getElementById("dict").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+            else {
                 var appKey = '44d3c65e009191c5';
                 var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
                 var salt = (new Date).getTime();
@@ -66,19 +55,54 @@
                     success: function (data) {
                         console.log(data);
                         var parentDiv = document.getElementById("dict");
-                        var wordShowDiv = document.createElement("h1");
-                        wordShowDiv.innerHTML = wordUse;
+                        var wordShowDiv = document.createElement("span");
+                        wordShowDiv.id = "wordTitle";
+                        wordShowDiv.innerHTML = "<img src=\"res/content/wordTitle.png\"/>&nbsp;" + wordUse;
                         parentDiv.appendChild(wordShowDiv);
-                        var explainDiv = document.createElement("p");
-                        var explains = "";
-                        if (data.basic) {
-                            for (i in data.basic.explains) explains += data.basic.explains[i] + "<br/>";
-                            explainDiv.innerHTML = explains;
-                        } else explainDiv.innerHTML = "Cannot find the word.";
-                        parentDiv.appendChild(explainDiv);
+                        var phoneticDiv = document.createElement("span");
+                        phoneticDiv.id = "phonetic";
+                        if (data.basic) {//如果输入单词
+                            if (data.basic.phonetic) {
+                                phonetic = "";
+                                if (data["basic"]["uk-phonetic"]) phonetic += "&nbsp;&nbsp;[" + data["basic"]["uk-phonetic"] + "]";
+                                if (data["basic"]["us-phonetic"] && data["basic"]["uk-phonetic"]) phonetic += ", ";
+                                if (data["basic"]["us-phonetic"]) phonetic += "[" + data["basic"]["us-phonetic"] + "]";
+                                phoneticDiv.innerHTML = phonetic;
+                            }
+                        }
+                        parentDiv.appendChild(phoneticDiv);
+                        var explainDiv = document.createElement("span");
+                        var explains = "<br/>";
+                        if (data.basic) {//如果输入单词
+                            for (i in data.basic.explains) {
+                                explains += data.basic.explains[i];
+                                if (i != data.basic.explains.length - 1) explains += " / ";
+                            }
+                            explainDiv.innerHTML = explains;//输出解释
+                            parentDiv.appendChild(explainDiv);
+                            var webDiv = document.createElement("span");
+                            if (data.webdict) {
+                                webDiv.innerHTML = "<br/><br/><a href=\"javascript:require('electron').shell.openExternal('http://www.youdao.com/w/eng/" + wordUse + "')\" id=\"backLink\">在线查看更多内容</a>";
+                            }
+                            parentDiv.appendChild(webDiv);//在线查看更多内容链接
+                        } else {
+                            var tempBoolForTranslation = false;
+                            for (i in data.translation) {
+                                if ('A' <= s[i] && s[i] <= 'z') continue;
+                                else {
+                                    tempBoolForTranslation = true;
+                                    break;
+                                }
+                            }
+                            if (tempBoolForTranslation) {
+                                explainDiv.innerHTML = "<br/>" + data.translation;//输出翻译
+                                parentDiv.appendChild(explainDiv);
+                            }
+                            else document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                        }
                     },
                     error: function () {
-                        document.getElementById("main").innerText = "Cannot receive data, please try again later.";
+                        document.getElementById("dict").innerHTML = "<br/><h2>无法建立与服务器的连接，请稍后再试。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
                     }
                 });
             }
@@ -91,7 +115,7 @@
     <div id="bar">
         <div id="btn">
             <a href="#"><img src="res/icons/settings.png" /></a>
-            <a href="#"><img src="res/icons/about.png" /></a>
+            <a href="javascript:newAboutWin()"><img src="res/icons/about.png" /></a>
             <a href="javascript:minimize()"><img src="res/icons/minimize.png" /></a>
             <a href="javascript:window.close()"><img src="res/icons/close.png" /></a>
         </div>

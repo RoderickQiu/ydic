@@ -1,23 +1,27 @@
 /* global settings */
-body{
+html,body{
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", sans-serif;
     background-color: #fefefe;
+    -webkit-app-region: drag;/* let frameless windows draggable */
+    width: 90%; height: 90%;/* 解决页面下半部分无法拖拽的问题：页面没有伸展至那儿 */
 }
 
 /* main-search-box */
 #main{
+    position: absolute;
     transform: translateY(100px);
+    left: 45px; right: 45px;
     align-content: center;
     text-align: center;
 }
 #main #searchbox{
     border: none;
-    width: 540px;
-    height: 48px;
+    width: 540px; height: 48px;
     text-align: center;
     font-size: 22px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", sans-serif;
+    -webkit-app-region: no-drag;/* let this part clickable */
 }
 #main input:focus{
     background-image: url(../content/base.png);
@@ -27,23 +31,53 @@ body{
 /* dictionary-content-area */
 #dict{
     position: absolute;
-    top: 30px;
-    left: 45px;
-    right: 45px;
-    align-content: center;
-    text-align: center;
+    transform: translateY(50px);
+    left: 45px; right: 45px;
+    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-user-select: text;
+}
+#dict #wordTitle{
+    color: #4a9af6;
+    font-weight: bolder;
+    font-size: 32px;
+    line-height: 60px;
+    letter-spacing: 0.5px;
+}
+#dict #phonetic{
+    color: lightslategray;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#dict span{
+    font-size: 15.5px;
+}
+#dict #backLink{
+    color: #4a9af6;
+    line-height: 20px;
+}
+
+/* bar (pop-up windows) */
+#btn-popup{
+    position: absolute;
+    top: 10px; right: 8px;
+    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-user-select: none;
+}
+#btn-popup img{
+    width: 28px; height: 28px;
 }
 
 /* bar */
 #btn{
     position: absolute;
-    top: 10px;
-    right: 8px;
+    top: 10px; right: 8px;
+    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-user-select: none;
 }
 #logo{
     position: absolute;
-    top: 10px;
-    left: 8px;
+    top: 10px; left: 8px;
+    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-user-select: none;
 }
 @keyframes showBtn{
     from {opacity: 0;}
@@ -57,6 +91,5 @@ body{
     opacity: 1;
 }/* 自动隐藏按钮 */
 #bar img{
-    width: 28px;
-    height: 28px;
+    width: 28px; height: 28px;
 }
