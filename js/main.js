@@ -6,7 +6,7 @@ let win
 
 function createWindow() {
   // 创建浏览器窗口。
-  win = new BrowserWindow({ width: 768, height: 300, frame: false, show: false, center: true, titleBarStyle: 'hidden' })//titleBarStyle: hidden, 返回一个隐藏标题栏的全尺寸内容窗口
+  win = new BrowserWindow({ width: 768, height: 300, frame: false, show: false, center: true, titleBarStyle: 'customButtonsOnHover' })//titleBarStyle: customButtonsOnHover, 返回一个隐藏标题栏的全尺寸内容窗口
 
   // 然后加载应用的 index.html。
   win.loadFile('index.html')
