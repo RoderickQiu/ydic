@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
+    <title>English Explains</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/md5.min.js"></script>
+    <script src="js/barCtrl.js"></script>
+    <script>
+        var ipc = require('electron').ipcRenderer;
+        ipc.send('window-englishExplains');//调整尺寸
+        $(document).ready(function () {
+            s = location.search.substr(1);
+            a = s.split('&');
+            var wordIn = '';
+            for (i in a) {
+                b = a[i].split('=');
+                wordIn = b[1];
+            }
+            var wordUse = "";
+            for (i in wordIn) {
+                if (('a' <= wordIn[i] && wordIn[i] <= 'z') || ('0' <= wordIn[i] && wordIn[i] <= '9') || wordIn[i] == '-') wordUse += wordIn[i];
+                else if ('A' <= wordIn[i] && wordIn[i] <= 'Z') wordUse += wordIn[i].toLowerCase();
+                else if (wordIn[i] == '+') wordUse += ' ';
+                else {
+                    wordUse = "";
+                    break;
+                }
+            }//拼写检查、输入字串格式化
+            $.ajax({
+                url: 'https://www.dictionaryapi.com/api/v3/references/learners/json/' + wordUse,
+                type: 'get',
+                dataType: 'json',
+                data: { key: "5a5f4c91-d999-4a8d-9228-341d031b7c66" },
+                success: function (data) {
+                    console.log(data);
+                    var parentDiv = document.getElementById("inscroll");
+                    parentDiv.innerHTML = "";//清空原有内容
+                    var wordShowDiv = document.createElement("span");
+                    wordShowDiv.id = "wordTitle";
+                    wordShowDiv.innerHTML = "<img src=\"res/content/wordTitle.png\"/>&nbsp;" + wordUse;
+                    parentDiv.appendChild(wordShowDiv);
+                    var explainsDiv = document.createElement("span");
+                    var explains = "<br/>";
+                    var isThereAnyContent = false;
+                    for (i in data) {
+                        if (data[i]["meta"]) {
+                            if (data[i]["meta"]["app-shortdef"]) {
+                                if (data[i]["meta"]["app-shortdef"]["def"]) {
+                                    for (j in data[i]["meta"]["app-shortdef"]["def"]) explains += data[i]["meta"]["app-shortdef"]["def"][j] + ".<br/>";
+                                    explains += "<br/>";
+                                    isThereAnyContent = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!isThereAnyContent) document.getElementById("inscroll").innerHTML = "<br/><h2>对不起，这个词暂时还不在词库中。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                    explains = explains.replace(/{bc}/g, "- ");//转换{bc}
+                    explains = explains.replace(/{it}/g, "<i>(");//转换{it}
+                    explains = explains.replace(/{\/it}/g, ")</i>");//转换{/it}
+                    explains = explains.replace(/{phrase}/g, "<i>");//转换{phrase}
+                    explains = explains.replace(/{\/phrase}/g, "</i>");//转换{/phrase}
+                    explainsDiv.innerHTML = explains;
+                    parentDiv.appendChild(explainsDiv);
+                },
+                error: function () {
+                    document.getElementById("inscroll").innerHTML = "<br/><h2>无法建立与服务器的连接，请稍后再试。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                }
+            });
+        });//使用jQuery::jsonp获取远程词汇
+    </script>
+</head>
+
+<body>
+    <div id="bar">
+            <div id="logo"><a href="javascript:history.back(-1)"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
+            <div id="bar">
+                <div id="btn">
+                    <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
+                    <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
+                </div>
+            </div>
+    </div>
+    <div id="inscroll">
+        <br />
+        <h2>等待服务器响应...</h2>
+        <!-- 动态加入内容 -->
+    </div>
+</body>
+
+</html>
+
+<!-- 参考：https://www.dictionaryapi.com/account/example -->

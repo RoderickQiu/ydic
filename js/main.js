@@ -44,3 +44,19 @@ app.on('activate', () => {
 ipcMain.on('window-min', function () {
   if (win != null) win.minimize();
 })
+
+//登录窗口有道词典尺寸，通过ipc传递
+ipcMain.on('window-dict', function () {
+  if (win != null) {
+    win.setContentSize(768, 300); 
+    win.center();
+  }
+})
+
+//登录窗口韦氏词典尺寸，通过ipc传递
+ipcMain.on('window-englishExplains', function () {
+  if (win != null) {
+    win.setContentSize(768, 450); 
+    win.center();
+  }
+})

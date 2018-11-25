@@ -8,16 +8,20 @@
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
     <script src="js/barCtrl.js"></script>
+    <script>
+        var ipc = require('electron').ipcRenderer;
+        ipc.send('window-dict');//调整尺寸
+    </script>
 </head>
 
 <body>
     <div id="bar">
-        <div id="logo"><a href="#"><img src="res/icons/yD-black.png" /></a></div>
+        <div id="logo"><a href="#"><img src="res/icons/yD-black.png" alt="yDic" /></a></div>
         <div id="btn">
-            <a href="#"><img src="res/icons/settings.png" /></a>
-            <a href="javascript:newAboutWin()"><img src="res/icons/about.png" /></a>
-            <a href="javascript:minimize()"><img src="res/icons/minimize.png" /></a>
-            <a href="javascript:window.close()"><img src="res/icons/close.png" /></a>
+            <a href="#"><img src="res/icons/settings.png" alt="设置" /></a>
+            <a href="javascript:newAboutWin()"><img src="res/icons/about.png" alt="关于" /></a>
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
         </div>
     </div>
     <div id="main">

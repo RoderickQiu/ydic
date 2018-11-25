@@ -12,6 +12,16 @@
     <script src="js/md5.min.js"></script>
     <script src="js/barCtrl.js"></script>
     <script>
+        document.onmouseup = function () {
+            if (window.getSelection() != "") {
+                document.execCommand("Copy");
+                alert("复制成功")
+            }
+        };
+    </script>
+    <script>
+        var ipc = require('electron').ipcRenderer;
+        ipc.send('window-dict');//调整尺寸
         $(document).ready(function () {
             s = location.search.substr(1);
             a = s.split('&');
@@ -22,7 +32,7 @@
             }
             var wordUse = "";
             for (i in wordIn) {
-                if (('a' <= wordIn[i] && wordIn[i] <= 'z') || ('0' <= wordIn[i] && wordIn[i] <= '9')) wordUse += wordIn[i];
+                if (('a' <= wordIn[i] && wordIn[i] <= 'z') || ('0' <= wordIn[i] && wordIn[i] <= '9') || wordIn[i] == '-') wordUse += wordIn[i];
                 else if ('A' <= wordIn[i] && wordIn[i] <= 'Z') wordUse += wordIn[i].toLowerCase();
                 else if (wordIn[i] == '+') wordUse += ' ';
                 else {
@@ -55,6 +65,7 @@
                     success: function (data) {
                         console.log(data);
                         var parentDiv = document.getElementById("dict");
+                        parentDiv.innerHTML = "";//清空原有内容
                         var wordShowDiv = document.createElement("span");
                         wordShowDiv.id = "wordTitle";
                         wordShowDiv.innerHTML = "<img src=\"res/content/wordTitle.png\"/>&nbsp;" + wordUse;
@@ -82,7 +93,8 @@
                             parentDiv.appendChild(explainDiv);
                             var webDiv = document.createElement("span");
                             if (data.webdict) {
-                                webDiv.innerHTML = "<br/><br/><a href=\"javascript:require('electron').shell.openExternal('http://www.youdao.com/w/eng/" + wordUse + "')\" id=\"backLink\">在线查看更多内容</a>";
+                                var webDivContent = "<br/><br/><a href=\"searcher-englishExplains.html?word=" + wordUse + "\" id=\"backLink\">完整英英释义</a>";
+                                webDiv.innerHTML = webDivContent;
                             }
                             parentDiv.appendChild(webDiv);//在线查看更多内容链接
                         } else {
@@ -111,16 +123,19 @@
 </head>
 
 <body>
-    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" /></a></div>
+    <div id="logo"><a href="javascript:history.back(-1)""><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
     <div id="bar">
         <div id="btn">
-            <a href="#"><img src="res/icons/settings.png" /></a>
-            <a href="javascript:newAboutWin()"><img src="res/icons/about.png" /></a>
-            <a href="javascript:minimize()"><img src="res/icons/minimize.png" /></a>
-            <a href="javascript:window.close()"><img src="res/icons/close.png" /></a>
+            <a href="#"><img src="res/icons/settings.png" alt="设置" /></a>
+            <a href="javascript:newAboutWin()"><img src="res/icons/about.png" alt="关于" /></a>
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
         </div>
     </div>
     <div id="dict">
+        <br />
+        <h2>等待服务器响应...</h2>
+        <h3><a href="index.html" id="backLink">返回</a></h3>
         <!-- 动态加入内容 -->
     </div>
 </body>
