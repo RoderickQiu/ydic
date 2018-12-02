@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="res/css/style.css" />
-    <title>English Explains</title>
+    <title>English Explanations</title>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
@@ -11,6 +11,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/md5.min.js"></script>
     <script src="js/barCtrl.js"></script>
+    <script src="js/copyCommand.js"></script>
     <script>
         var ipc = require('electron').ipcRenderer;
         ipc.send('window-englishExplains');//调整尺寸
@@ -49,23 +50,48 @@
                     var explains = "<br/>";
                     var isThereAnyContent = false;
                     for (i in data) {
-                        if (data[i]["meta"]) {
-                            if (data[i]["meta"]["app-shortdef"]) {
-                                if (data[i]["meta"]["app-shortdef"]["def"]) {
-                                    for (j in data[i]["meta"]["app-shortdef"]["def"]) explains += data[i]["meta"]["app-shortdef"]["def"][j] + ".<br/>";
-                                    explains += "<br/>";
-                                    isThereAnyContent = true;
-                                }
+                        if (data[i]["def"]) {
+                            if (data[i]["def"][0]["sseq"]) {
+                                if (data[i]["ins"]) {
+                                    explains += "<span id='smallSpan'>";
+                                    for (j in data[i]["ins"]) {
+                                        explains += "[ " + data[i]["ins"][j]["if"] + " ] ";
+                                    }
+                                    explains += "</span><br/>";
+                                }//添加变位信息
+                                for (j in data[i]["def"][0]["sseq"]) {
+                                    for (k in data[i]["def"][0]["sseq"][j]) {
+                                        if (data[i]["def"][0]["sseq"][j][k][1]["dt"]) {
+                                            if ((typeof data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1]) == "string")
+                                                explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1] + "<br/>";//加入定义
+                                            else explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1][0][0][1] + "<br/>";//有时会有不按规范定义data-structure的情况
+                                            for (l in data[i]["def"][0]["sseq"][j][k][1]["dt"]) {
+                                                if (data[i]["def"][0]["sseq"][j][k][1]["dt"][l][0] == "vis") {
+                                                    explains += "<span id='example'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                                                    explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][l][1][0]["t"] + "</span><br/>";
+                                                }//加入例句（限于篇幅，只加第一句）
+                                            }
+                                        }
+                                    }
+                                }//添加单词释义
+                                explains += "<br/>";
+                                isThereAnyContent = true;
                             }
                         }
                     }
                     if (!isThereAnyContent) document.getElementById("inscroll").innerHTML = "<br/><h2>对不起，这个词暂时还不在词库中。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
                     explains = explains.replace(/{bc}/g, "- ");//转换{bc}
-                    explains = explains.replace(/{it}/g, "<i>(");//转换{it}
-                    explains = explains.replace(/{\/it}/g, ")</i>");//转换{/it}
+                    explains = explains.replace(/{it}/g, "<i>");//转换{it}
+                    explains = explains.replace(/{\/it}/g, "</i>");//转换{/it}
                     explains = explains.replace(/{phrase}/g, "<i>");//转换{phrase}
                     explains = explains.replace(/{\/phrase}/g, "</i>");//转换{/phrase}
-                    explainsDiv.innerHTML = explains;
+                    explains = explains.replace(/{ldquo}/g, "<i>\"");//转换{ldquo}
+                    explains = explains.replace(/{rdquo}/g, "\"</i>");//转换{rdquo}
+                    explains = explains.replace(/\*/g, "");//删去多余的"*"字符
+                    explains = explains.replace(/<br\/>undefined/g, "");//删除多余的"undefined"
+                    explains = explains.replace(/{dx.{1,20}dx}/g, "");//删除多余的"{dx}...{/dx}"
+                    explains = explains.replace(/- {sx.{1,20}}/g, "");//删除多余的"{sx...}"
+                    explainsDiv.innerHTML = explains;//以上部分可以修复格式。但是最后几个样式仍然需要修改，否则在查询少数词语时会有不应出现的空行。
                     parentDiv.appendChild(explainsDiv);
                 },
                 error: function () {
@@ -76,19 +102,19 @@
     </script>
 </head>
 
-<body>
+<body id="body">
+    <div id="logo"><a href="javascript:history.back(-1)"><img src="res/icons/previous.png" width="40px" height="40px"
+                alt="返回首页" /></a></div>
     <div id="bar">
-            <div id="logo"><a href="javascript:history.back(-1)"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
-            <div id="bar">
-                <div id="btn">
-                    <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
-                    <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
-                </div>
-            </div>
+        <div id="btn">
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
+        </div>
     </div>
     <div id="inscroll">
         <br />
         <h2>等待服务器响应...</h2>
+        <h3><a href="javascript:history.back(-1)" id="backLink">返回</a></h3>
         <!-- 动态加入内容 -->
     </div>
 </body>

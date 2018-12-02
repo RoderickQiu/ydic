@@ -11,14 +11,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/md5.min.js"></script>
     <script src="js/barCtrl.js"></script>
-    <script>
-        document.onmouseup = function () {
-            if (window.getSelection() != "") {
-                document.execCommand("Copy");
-                alert("复制成功")
-            }
-        };
-    </script>
+    <script src="js/copyCommand.js"></script>
     <script>
         var ipc = require('electron').ipcRenderer;
         ipc.send('window-dict');//调整尺寸
@@ -40,13 +33,13 @@
                     break;
                 }
             }//拼写检查、输入字串格式化
-            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a>&nbsp;|&nbsp;您是打算 <a href=\"translator.html\" id=\"backLink\">翻译</a> 吗？</h3>";
             else if (wordUse.length > 30) document.getElementById("dict").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
             else {
                 var appKey = '44d3c65e009191c5';
                 var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
                 var salt = (new Date).getTime();
-                var from = 'EN';
+                var from = 'auto';
                 var to = 'zh-CHS';
                 var str1 = appKey + wordUse + salt + key;
                 var sign = md5(str1);
@@ -92,25 +85,15 @@
                             explainDiv.innerHTML = explains;//输出解释
                             parentDiv.appendChild(explainDiv);
                             var webDiv = document.createElement("span");
-                            if (data.webdict) {
-                                var webDivContent = "<br/><br/><a href=\"searcher-englishExplains.html?word=" + wordUse + "\" id=\"backLink\">完整英英释义</a>";
-                                webDiv.innerHTML = webDivContent;
-                            }
-                            parentDiv.appendChild(webDiv);//在线查看更多内容链接
+                            webDiv.innerHTML = "<br/><br/><a href=\"searcher-englishExplains.html?word=" + wordUse + "\" id=\"backLink\">完整英英释义</a>";
+                            parentDiv.appendChild(webDiv);//完整英英释义
                         } else {
-                            var tempBoolForTranslation = false;
-                            for (i in data.translation) {
-                                if ('A' <= s[i] && s[i] <= 'z') continue;
-                                else {
-                                    tempBoolForTranslation = true;
-                                    break;
-                                }
-                            }
-                            if (tempBoolForTranslation) {
+                            if (data.translation != wordUse) {
                                 explainDiv.innerHTML = "<br/>" + data.translation;//输出翻译
                                 parentDiv.appendChild(explainDiv);
+                            } else {
+                                document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
                             }
-                            else document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
                         }
                     },
                     error: function () {
@@ -122,8 +105,9 @@
     </script>
 </head>
 
-<body>
-    <div id="logo"><a href="javascript:history.back(-1)""><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
+<body id="body">
+    <div id="logo"><a href="javascript:history.back(-1)"><img src="res/icons/previous.png" width="40px" height="40px"
+                alt="返回首页" /></a></div>
     <div id="bar">
         <div id="btn">
             <a href="#"><img src="res/icons/settings.png" alt="设置" /></a>
@@ -135,7 +119,7 @@
     <div id="dict">
         <br />
         <h2>等待服务器响应...</h2>
-        <h3><a href="index.html" id="backLink">返回</a></h3>
+        <h3><a href="javascript:history.back(-1)" id="backLink">返回</a></h3>
         <!-- 动态加入内容 -->
     </div>
 </body>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
+    <title>Search Result</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/md5.min.js"></script>
+    <script src="js/barCtrl.js"></script>
+    <script>
+        var ipc = require('electron').ipcRenderer;
+        ipc.send('window-englishExplains');//调整尺寸
+        $(document).ready(function () {
+            s = location.search.substr(1);
+            a = s.split('&');
+            var wordIn = '';
+            for (i in a) {
+                b = a[i].split('=');
+                wordIn = b[1];
+            }
+            function translator() {
+                var appid = '20160902000028007';
+                var key = 'rx5SwTmvX6ew4uza8OYJ';
+                var salt = (new Date).getTime();
+                var query = decodeURI(wordIn);
+                query=query.replace(/\+/g," ");
+                if (query != "undefined") document.getElementById("transArea").innerText = query;
+                var from = 'auto';
+                var to = 'zh';
+                var str1 = appid + query + salt + key;
+                var sign = md5(str1);
+                console.log(wordIn);
+                console.log(query);
+                $.ajax({
+                    url: 'http://api.fanyi.baidu.com/api/trans/vip/translate',
+                    type: 'get',
+                    dataType: 'jsonp',
+                    data: {
+                        q: query,
+                        appid: appid,
+                        salt: salt,
+                        from: from,
+                        to: to,
+                        sign: sign
+                    },
+                    success: function (data) {
+                        if (data["trans_result"])
+                            if (query != "undefined")
+                                document.getElementById("transOut").innerHTML = "<h3>" + data["trans_result"][0]["dst"] + "</h3>";
+                            else document.getElementById("transOut").innerHTML = "<h3>请输入要翻译的内容。</h3>";
+                        else document.getElementById("transOut").innerHTML = "<h2>发生了一点小错误，请稍后再试。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                    },
+                    error: function () {
+                        document.getElementById("transOut").innerHTML = "<h2>无法建立与服务器的连接，请稍后再试。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                    }
+                });
+            }
+            translator()
+        });
+    </script>
+</head>
+
+<body id="body">
+    <div id="logo"><a href="javascript:history.back(-1)"><img src="res/icons/previous.png" width="40px" height="40px"
+                alt="返回首页" /></a></div>
+    <div id="bar">
+        <div id="btn">
+            <a href="#"><img src="res/icons/settings.png" alt="设置" /></a>
+            <a href="javascript:newAboutWin()"><img src="res/icons/about.png" alt="关于" /></a>
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
+        </div>
+    </div>
+    <table id="trans">
+        <tbody>
+            <tr>
+                <td id="transIn">
+                    <form action="translator.html">
+                        <textarea id="transArea" name="word" autofocus></textarea>
+                        <button>Submit</button>
+                    </form>
+                </td>
+                <td id="transOut">
+                    <h2>等待服务器响应...</h2>
+                    <h3><a href="javascript:history.back(-1)" id="backLink">返回</a></h3>
+                    <!-- 动态加入内容 -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
+
+<!-- 参考：https://ai.youdao.com/docs/doc-trans-api.s -->
