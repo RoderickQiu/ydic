@@ -46,6 +46,20 @@
                     wordShowDiv.id = "wordTitle";
                     wordShowDiv.innerHTML = "<img src=\"res/content/wordTitle.png\"/>&nbsp;" + wordUse;
                     parentDiv.appendChild(wordShowDiv);
+                    var phoneticDiv = document.createElement("span");
+                    phoneticDiv.id = "phonetic";
+                    if (data) {
+                        if (data[0].hwi) {
+                            if (data[0].hwi.prs) {
+                                phonetic = "";
+                                for (i in data[0].hwi.prs) {
+                                    phonetic += ' [' + data[0].hwi.prs[i].ipa + ']';
+                                }
+                                phoneticDiv.innerHTML = phonetic;
+                            }
+                        }
+                    }
+                    parentDiv.appendChild(phoneticDiv);
                     var explainsDiv = document.createElement("span");
                     var explains = "<br/>";
                     var isThereAnyContent = false;
@@ -79,6 +93,7 @@
                             }
                         }
                     }
+
                     if (!isThereAnyContent) document.getElementById("inscroll").innerHTML = "<br/><h2>对不起，这个词暂时还不在词库中。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
                     explains = explains.replace(/{bc}/g, "- ");//转换{bc}
                     explains = explains.replace(/{it}/g, "<i>");//转换{it}
@@ -93,6 +108,11 @@
                     explains = explains.replace(/- {sx.{1,20}}/g, "");//删除多余的"{sx...}"
                     explainsDiv.innerHTML = explains;//以上部分可以修复格式。但是最后几个样式仍然需要修改，否则在查询少数词语时会有不应出现的空行。
                     parentDiv.appendChild(explainsDiv);
+                    if (isThereAnyContent) {
+                        var webDiv = document.createElement("span");
+                        webDiv.innerHTML = "<a href=\"searcher.html?word=" + wordUse + "\" id=\"backLink\">查看英汉释义</a>";
+                        parentDiv.appendChild(webDiv);//完整英英释义
+                    }
                 },
                 error: function () {
                     document.getElementById("inscroll").innerHTML = "<br/><h2>无法建立与服务器的连接，请稍后再试。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
@@ -103,8 +123,7 @@
 </head>
 
 <body id="body">
-    <div id="logo"><a href="javascript:history.back(-1)"><img src="res/icons/previous.png" width="40px" height="40px"
-                alt="返回首页" /></a></div>
+    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
     <div id="bar">
         <div id="btn">
             <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>

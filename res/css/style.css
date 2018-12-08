@@ -10,6 +10,14 @@ html,body{
     position: absolute;
     top: 45%; left: 45%;
 }
+#backLink{
+    color: #4a9af6;
+    line-height: 20px;
+}
+@keyframes showBtn{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
 
 /* main-search-box */
 #main{
@@ -54,10 +62,6 @@ html,body{
 }
 #dict span{
     font-size: 15.5px;
-}
-#dict #backLink{
-    color: #4a9af6;
-    line-height: 20px;
 }
 
 /* bar (pop-up windows) */
@@ -117,10 +121,6 @@ html,body{
     font-size: 14px;
     color: #4a9af6;
 }
-#inscroll #backLink{
-    color: #4a9af6;
-    line-height: 20px;
-}
 
 /* bar */
 #btn{
@@ -134,14 +134,6 @@ html,body{
     top: 10px; left: 8px;
     -webkit-app-region: no-drag;/* let this part clickable */
     -webkit-user-select: none;
-}
-@keyframes showBtn{
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-@keyframes hideBtn{
-    from {opacity: 1;}
-    to {opacity: 0;}
 }
 #bar a{
     opacity: 0;
@@ -167,28 +159,43 @@ html,body{
 }
 #transOut{
     text-align: left; vertical-align: top;
-    left: 55%; width: 300px; height: 300px;
-    overflow-wrap: normal;
-    overflow: scroll;
-    position: absolute;
+    left: 55%; 
     -webkit-app-region: no-drag;/* let this part clickable */
     -webkit-user-select: text;
 }
-#transOut::-webkit-scrollbar-track{
+#transOutWord{
+    width: 472px; height: 320px;
+    overflow-wrap: normal;
+    overflow: scroll;
+    position: absolute;
+}
+#transOutWord::-webkit-scrollbar-track{
 	background-color: #fefefe;
 }
-#transOut::-webkit-scrollbar{
+#transOutWord::-webkit-scrollbar{
 	width: 12px;
 	background-color: #f5f5f5;
 }
-#transOut::-webkit-scrollbar-thumb{
+#transOutWord::-webkit-scrollbar-thumb{
 	background-color: #5555558f;
 }
 #transArea{
-    width: 100%;
-    height: 288px;
-    font-size: 22px;
+    height: 250px;
+    resize: none;
+    font-size: 18px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
     -webkit-app-region: no-drag;/* let this part clickable */
+}
+.transLanList{
+    font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
+    font-size: 15px;
+    width: 100%; height: 30px;
+}
+#transSubmit{
+    font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
+    font-size: 15px;
+    width: 100%; height: 30px;
+    border: 2px solid #4a9af6;
+    background-color: #fefefe;
 }

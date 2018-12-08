@@ -49,7 +49,6 @@ ipcMain.on('window-min', function () {
 ipcMain.on('window-dict', function () {
   if (win != null) {
     win.setContentSize(768, 300); 
-    win.center();
   }
 })
 
@@ -57,6 +56,5 @@ ipcMain.on('window-dict', function () {
 ipcMain.on('window-englishExplains', function () {
   if (win != null) {
     win.setContentSize(768, 450); 
-    win.center();
   }
 })

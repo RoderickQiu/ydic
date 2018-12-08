@@ -1,4 +1,4 @@
-# yDic
+﻿# yDic
 
 Your dictionary. / 你的词典。
 
@@ -14,8 +14,8 @@ yDic是一个轻量级、易用的电脑端词典解决方案。
 
 ### 使用以下API：
 - 有道智云, ©2017 网易公司, youdao.com/terms.
-- Merriam-Webster Advanced English Learner's Dictionary API, © 2018 Merriam-Webster Incorporated, www.dictionaryapi.com/info/terms-of-service.
-- 百度翻译开放平台, © 2018 Baidu, ai.baidu.com/docs#/AI-service-agreement/top.
+- Merriam-Webster Advanced English Learner's Dictionary API, © 2018 Merriam-Webster Incorporated, dictionaryapi.com/info/terms-of-service.
+- 百度翻译开放平台, © 2018 Baidu, fanyi-api.baidu.com/api/trans/product/apidoc.
 
 ### 使用以下框架：
 - Electron, Electron, MIT License.
