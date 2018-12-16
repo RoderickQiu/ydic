@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
+    <title>Settings</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/barCtrl.js"></script>
+    <script>
+        var ipc = require('electron').ipcRenderer;
+        ipc.send('window-set');//调整尺寸
+        const Store = require('electron-store');
+        const store = new Store();//设置数据保存
+    </script>
+</head>
+
+<body>
+    <div id="btn-popup"><a href="index.html"><img src="res/icons/close.png" alt="关闭" /></a></div>
+    <div id="dict">
+        <div id="wordTitle">设置</div>
+        默认词典：
+        <select name="defDic" id="defDic" class="transLanList" onchange="store.set('defDic', $('#defDic').val())">
+            <option value="yd" id="yd">有道词典</option>
+            <option value="mw" id="mw">韦氏词典</option>
+        </select><br />
+        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />韦氏词典更详细，不过是一本英英词典；而有道词典是英汉词典。</span>
+        <br /><br />
+        启用自动复制、粘贴：
+        <select name="autoCopyPaste" id="autoCopyPaste" class="transLanList" onchange="store.set('autoCopyPaste', $('#autoCopyPaste').val())">
+            <option value="disabled" id="disabled">关闭</option>
+            <option value="auto" id="auto">启用</option>
+        </select><br />
+        <span id="smallSpan">如果启用，在查词页面选中文字将会自动复制到剪贴板，在翻译页面输入框中右键单击将会自动粘贴剪贴板中内容至框中。</span>
+        <br /><br />
+        &copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')" id="backLink">Roderick
+            Qiu</a>.
+    </div>
+    <script>
+        var defDic = store.get('defDic');
+        console.log(defDic);
+        if (defDic == 'yd') $("#defDic").val("yd");
+        else $("#defDic").val("mw");//默认词典设置准备工作
+
+        var autoCopyPaste = store.get('autoCopyPaste');
+        console.log(autoCopyPaste);
+        if (autoCopyPaste == 'disabled') $("#autoCopyPaste").val("disabled");
+        else $("#autoCopyPaste").val("auto");//自动复制粘贴准备工作 
+    </script>
+</body>
+
+</html>
+
+<!-- 参考：https://github.com/sindresorhus/electron-store/blob/master/readme.md -->

@@ -33,6 +33,7 @@
                     break;
                 }
             }//拼写检查、输入字串格式化
+            
             $.ajax({
                 url: 'https://www.dictionaryapi.com/api/v3/references/learners/json/' + wordUse,
                 type: 'get',
@@ -63,11 +64,13 @@
                     var explainsDiv = document.createElement("span");
                     var explains = "<br/>";
                     var isThereAnyContent = false;
+                    var theExplain;
                     for (i in data) {
                         if (data[i]["def"]) {
                             if (data[i]["def"][0]["sseq"]) {
                                 if (data[i]["ins"]) {
                                     explains += "<span id='smallSpan'>";
+                                    if (data[i]["fl"]) explains += "<b>" + data[i]["fl"] + "</b> ";
                                     for (j in data[i]["ins"]) {
                                         explains += "[ " + data[i]["ins"][j]["if"] + " ] ";
                                     }
@@ -76,14 +79,17 @@
                                 for (j in data[i]["def"][0]["sseq"]) {
                                     for (k in data[i]["def"][0]["sseq"][j]) {
                                         if (data[i]["def"][0]["sseq"][j][k][1]["dt"]) {
-                                            if ((typeof data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1]) == "string")
-                                                explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1] + "<br/>";//加入定义
-                                            else explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1][0][0][1] + "<br/>";//有时会有不按规范定义data-structure的情况
-                                            for (l in data[i]["def"][0]["sseq"][j][k][1]["dt"]) {
-                                                if (data[i]["def"][0]["sseq"][j][k][1]["dt"][l][0] == "vis") {
-                                                    explains += "<span id='example'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                                                    explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][l][1][0]["t"] + "</span><br/>";
-                                                }//加入例句（限于篇幅，只加第一句）
+                                            theExplain = data[i]["def"][0]["sseq"][j][k][1]["dt"][0][1];
+                                            if (theExplain.indexOf("{dx") == -1 && theExplain.indexOf("{sx") == -1) {//摆脱难搞的sx、dx
+                                                if (typeof theExplain == "string") {
+                                                    explains += theExplain + "<br/>";//加入定义
+                                                    for (l in data[i]["def"][0]["sseq"][j][k][1]["dt"]) {
+                                                        if (data[i]["def"][0]["sseq"][j][k][1]["dt"][l][0] == "vis") {
+                                                            explains += "<span id='example'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                                                            explains += data[i]["def"][0]["sseq"][j][k][1]["dt"][l][1][0]["t"] + "</span><br/>";
+                                                        }//加入例句（限于篇幅，只加第一句）
+                                                    }
+                                                } else explains += theExplain[0][0][1] + "<br/>";//有时会有不按规范定义data-structure的情况
                                             }
                                         }
                                     }
@@ -104,9 +110,7 @@
                     explains = explains.replace(/{rdquo}/g, "\"</i>");//转换{rdquo}
                     explains = explains.replace(/\*/g, "");//删去多余的"*"字符
                     explains = explains.replace(/<br\/>undefined/g, "");//删除多余的"undefined"
-                    explains = explains.replace(/{dx.{1,20}dx}/g, "");//删除多余的"{dx}...{/dx}"
-                    explains = explains.replace(/- {sx.{1,20}}/g, "");//删除多余的"{sx...}"
-                    explainsDiv.innerHTML = explains;//以上部分可以修复格式。但是最后几个样式仍然需要修改，否则在查询少数词语时会有不应出现的空行。
+                    explainsDiv.innerHTML = explains;//以上部分可以修复格式，虽然仍是凑合的方式
                     parentDiv.appendChild(explainsDiv);
                     if (isThereAnyContent) {
                         var webDiv = document.createElement("span");

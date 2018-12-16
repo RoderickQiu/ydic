@@ -2,30 +2,34 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
-    <title>About</title>
-    <meta charset="UTF-8" />
-    <meta http-equiv="Content-Type" content="text/html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <script src="js/barCtrl.js"></script>
+        <link rel="stylesheet" type="text/css" href="res/css/style.css" />
+        <title>About</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <script src="js/barCtrl.js"></script>
 </head>
 
 <body>
-    <div id="btn-popup"><a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭" /></a></div>
-    <div id="dict">
-        <center>
-            <img src="res/icons/yD-black.png" /><br />
-            <b>你的词典</b><br />
-            版本号
-            <script>document.write(require('./package.json').version);</script><br /><br />
-            <a href="javascript:require('electron').shell.openExternal(require('./package.json').homepage)"><img src="res/icons/home.png"
-                    width=28px height=28px alt="首页" /></a>
-            <a href="javascript:require('electron').shell.openExternal('https://github.com/RoderickQiu/yDic/')"><img
-                    src="res/icons/github.png" width=28px height=28px alt="GitHub页面" /></a>
-            <a href="javascript:require('electron').shell.openExternal('https://github.com/RoderickQiu/yDic/issues/')"><img
-                    src="res/icons/bugs.png" width=28px height=28px alt="反馈问题" /></a><!-- openExternely=用于在浏览器中打开页面 -->
-        </center>
-    </div>
+        <div id="btn-popup"><a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭" /></a></div>
+        <div id="dict">
+                <center>
+                        <img src="res/icons/yD-black.png" /><br />
+                        <b>你的词典</b><br />
+                        版本号
+                        <script>document.write(require('./package.json').version);</script><br /><br />
+                        <a href="javascript:require('electron').shell.openExternal(require('./package.json').homepage)"><img
+                                        src="res/icons/home.png" width=28px height=28px alt="首页" /></a>
+                        <a href="javascript:require('electron').shell.openExternal('https://github.com/RoderickQiu/yDic/')"><img
+                                        src="res/icons/github.png" width=28px height=28px alt="GitHub页面" /></a>
+                        <a href="javascript:require('electron').shell.openExternal('https://github.com/RoderickQiu/yDic/issues/')"><img
+                                        src="res/icons/bugs.png" width=28px height=28px alt="反馈问题" /></a><!-- openExternely=用于在浏览器中打开页面 -->
+                        <a href="javascript:require('electron').shell.openExternal(require('./package.json').homepage)"><img
+                                        src="res/icons/help.png" width=28px height=28px alt="帮助手册" /></a>
+                        <br />&copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')"
+                                id="backLink">Roderick Qiu</a>.
+                </center>
+        </div>
 </body>
 
 </html>

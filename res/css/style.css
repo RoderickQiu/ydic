@@ -6,7 +6,7 @@ html,body{
     width: 90%; height: 90%;/* 解决页面下半部分无法拖拽的问题：页面没有伸展至那儿 */
 }
 #copySuccessAlert{
-    color: #000;
+    color: #000000;
     position: absolute;
     top: 45%; left: 45%;
 }
@@ -26,9 +26,13 @@ html,body{
     left: 45px; right: 45px;
     align-content: center;
     text-align: center;
+    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-user-select: text;
 }
 #main #searchbox{
     border: none;
+    background-image: url(../content/base.png);
+    outline:none;
     width: 540px; height: 48px;
     text-align: center;
     font-size: 22px;
@@ -36,9 +40,9 @@ html,body{
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
     -webkit-app-region: no-drag;/* let this part clickable */
 }
-#main input:focus{
-    background-image: url(../content/base.png);
-    outline:none;
+#main #smallSpan{
+    font-size: 12px;
+    color: #777777;
 }
 
 /* dictionary-content-area */
@@ -62,6 +66,10 @@ html,body{
 }
 #dict span{
     font-size: 15.5px;
+}
+#dict #smallSpan{
+    font-size: 12px;
+    color: #777777;
 }
 
 /* bar (pop-up windows) */
@@ -110,16 +118,13 @@ html,body{
     color: lightslategray;
     font-family: Arial, Helvetica, sans-serif;
 }
-#inscroll span{
-    font-size: 15px;
-}
-#inscroll #smallSpan{
-    font-size: 12px;
-    color: darkgray;
-}
 #inscroll #example{
     font-size: 14px;
     color: #4a9af6;
+}
+#inscroll #smallSpan{
+    font-size: 12px;
+    color: #777777;
 }
 
 /* bar */
@@ -168,6 +173,8 @@ html,body{
     overflow-wrap: normal;
     overflow: scroll;
     position: absolute;
+    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-user-select: text;
 }
 #transOutWord::-webkit-scrollbar-track{
 	background-color: #fefefe;
@@ -185,7 +192,6 @@ html,body{
     font-size: 18px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
-    -webkit-app-region: no-drag;/* let this part clickable */
 }
 .transLanList{
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;

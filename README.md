@@ -20,8 +20,9 @@ yDic是一个轻量级、易用的电脑端词典解决方案。
 ### 使用以下框架：
 - Electron, Electron, MIT License.
 
-### 使用以下媒体资源：
+### 使用以下资源：
 - Modern UI Icons, modernuiicons.com, Creative Commons Attribution-Share Alike 3.0 Unported License.
 - Source Han Sans, Adobe Fonts, SIL Open Font License 1.1.
+- english-wordlists, mahavivo, github.com/mahavivo/english-wordlists.
 
 感谢这些项目的开发者/开发公司，没有他们，这个项目就不可能实现。

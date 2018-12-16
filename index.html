@@ -7,10 +7,60 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/barCtrl.js"></script>
     <script>
         var ipc = require('electron').ipcRenderer;
         ipc.send('window-dict');//调整尺寸
+        var fs = require('fs');
+        var wordList, wLength;
+        fs.readFile('./res/database/words.txt', 'utf8', function (err, data) {
+            wordList = data;
+            wLength = wordList.length;
+        });//单词提示api
+        const Store = require('electron-store');
+        const store = new Store();//设置数据保存
+    </script>
+    <script>
+        var boxVal, suggestion = "", sout = "", stemp;
+        $(document).ready(function () {
+            var defDic = store.get('defDic');
+            if (defDic == 'undefined') {
+                store.set('defDic', 'yd');
+                defDic = 'yd';
+                $("#searchform").attr("action", "searcher.html");
+            } else if (defDic == 'yd') $("#searchform").attr("action", "searcher.html");
+            else $("#searchform").attr("action", "searcher-englishExplains.html");//默认词典设置准备工作
+
+            var autoCopyPaste = store.get('autoCopyPaste');
+            if (autoCopyPaste == 'undefined') store.set('autoCopyPaste', 'auto');//自动复制粘贴准备工作
+            
+            document.onkeyup = function () {
+                boxVal = $("#searchbox").val();
+                if (boxVal.length > 1) {//当没有输入内容时，清空提示栏
+                    stemp = wordList.indexOf(boxVal);
+                    sout = "";
+                    for (var i = 0; wordList.indexOf(boxVal, stemp) != -1 && i < 4; i++) {
+                        suggestion = "", stemp = wordList.indexOf(boxVal, stemp);
+                        if (stemp != 0) {
+                            if (wordList[stemp - 1] != '\n') {
+                                stemp++;
+                                i--;
+                                continue;
+                            }
+                        }//特判，防止截取单词的一部分的情况出现
+                        while (wordList[stemp] != '\n' && stemp < wLength) {
+                            suggestion += wordList[stemp];
+                            stemp++;
+                        }
+                        stemp++;
+                        sout += suggestion + " ";
+                    }
+                    if (sout) document.getElementById("suggestions").innerHTML = "<span id='smallSpan'>输入建议：" + sout + "</span>";
+                } else document.getElementById("suggestions").innerHTML = "";
+            };//查询提示功能
+        });
     </script>
 </head>
 
@@ -19,15 +69,16 @@
         <div id="logo"><a href="#"><img src="res/icons/yD-black.png" alt="yDic" /></a></div>
         <div id="btn">
             <a href="translator.html"><img src="res/icons/translate.png" alt="翻译" /></a>
-            <a href="#"><img src="res/icons/settings.png" alt="设置" /></a>
+            <a href="settings.html"><img src="res/icons/settings.png" alt="设置" /></a>
             <a href="javascript:newAboutWin()"><img src="res/icons/about.png" alt="关于" /></a>
             <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
             <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
         </div>
     </div>
     <div id="main">
-        <form action="searcher.html"><input type="text" id="searchbox" name="word" autofocus></form>
+        <form id="searchform"><input type="text" id="searchbox" name="word" autofocus></form>
         <br />
+        <div id="suggestions"></div>
     </div>
 </body>
 
