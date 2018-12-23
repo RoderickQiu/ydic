@@ -1,10 +1,11 @@
 {
   "name": "ydic",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Your dictionary.",
   "main": "js/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "winx64": "electron-builder --win --x64"
   },
   "repository": {
     "type": "git",
@@ -12,10 +13,25 @@
   },
   "author": "RoderickQiu",
   "license": "MIT",
-  "icon": "Resources/icon.png",
   "homepage": "https://github.com/RoderickQiu/yDic/blob/master/README.md",
+  "appId": "com.scrisstudio.ydic",
+  "copyright": "© Roderick Qiu",
+  "productName": "yDic",
   "dependencies": {
-    "electron": ">=3.0.4",
-    "electron-store": "^2.0.0"
+    "electron-store": "^2.0.0",
+    "fs": ">0.0.0"
+  },
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-builder": "^20.38.4"
+  },
+  "build": {
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "icon": "res/icons/iconWin.ico"
+    }
   }
 }
