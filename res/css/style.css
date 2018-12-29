@@ -33,9 +33,19 @@ html,body{
     border: none;
     background-image: url(../content/base.png);
     outline:none;
-    width: 540px; height: 48px;
+    width: 450px; height: 48px;
     text-align: center;
     font-size: 22px;
+    background-color: #fefefe;
+    font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
+    -webkit-app-region: no-drag;/* let this part clickable */
+}
+#main #searchselect{
+    border: none;
+    outline:none;
+    width: 60px; height: 44px;
+    text-align: center;
+    font-size: 14px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
     -webkit-app-region: no-drag;/* let this part clickable */

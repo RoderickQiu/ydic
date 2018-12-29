@@ -24,10 +24,10 @@
         <div id="wordTitle">设置</div>
         默认词典：
         <select name="defDic" id="defDic" class="transLanList" onchange="store.set('defDic', $('#defDic').val())">
-            <option value="yd" id="yd">有道词典</option>
-            <option value="mw" id="mw">韦氏词典</option>
+            <option value="yd" id="yd">英汉词典</option>
+            <option value="mw" id="mw">英英词典</option>
         </select><br />
-        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />韦氏词典更详细，不过是一本英英词典；而有道词典是英汉词典。</span>
+        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />英英词典更详细，数据源为<i>Merriam-Webster's Learner's Dictionary</i>；英汉词典比较简明，来源是有道词典。</span>
         <br /><br />
         启用自动复制、粘贴：
         <select name="autoCopyPaste" id="autoCopyPaste" class="transLanList" onchange="store.set('autoCopyPaste', $('#autoCopyPaste').val())">
@@ -41,12 +41,10 @@
     </div>
     <script>
         var defDic = store.get('defDic');
-        console.log(defDic);
         if (defDic == 'yd') $("#defDic").val("yd");
         else $("#defDic").val("mw");//默认词典设置准备工作
 
         var autoCopyPaste = store.get('autoCopyPaste');
-        console.log(autoCopyPaste);
         if (autoCopyPaste == 'disabled') $("#autoCopyPaste").val("disabled");
         else $("#autoCopyPaste").val("auto");//自动复制粘贴准备工作 
     </script>

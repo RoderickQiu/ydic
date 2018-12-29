@@ -67,13 +67,17 @@
                         phoneticDiv.id = "phonetic";
                         if (data.basic) {//如果输入单词
                             if (data.basic.phonetic) {
-                                phonetic = "";
-                                if (data["basic"]["uk-phonetic"]) phonetic += "&nbsp;&nbsp;[" + data["basic"]["uk-phonetic"] + "]";
+                                var phonetic = "";
+                                if (data.basic["uk-speech"]) phonetic+="&nbsp;&nbsp;<a href='#' onclick='let audio = new Audio(); audio.src = \"" + data.basic["uk-speech"] + "\"; audio.play()' id='backLink'>";
+                                if (data["basic"]["uk-phonetic"]) phonetic += "[" + data["basic"]["uk-phonetic"] + "]";
+                                if (data.basic["uk-speech"]) phonetic+="</a>";
                                 if (data["basic"]["us-phonetic"] && data["basic"]["uk-phonetic"]) phonetic += ", ";
+                                if (data.basic["us-speech"]) phonetic+="<a href='#' onclick='let audio = new Audio(); audio.src = \"" + data.basic["us-speech"] + "\"; audio.play()' id='backLink'>";
                                 if (data["basic"]["us-phonetic"]) phonetic += "[" + data["basic"]["us-phonetic"] + "]";
+                                if (data.basic["us-speech"]) phonetic+="</a>";
                                 phoneticDiv.innerHTML = phonetic;
                             }
-                        }
+                        }//音标+发音
                         parentDiv.appendChild(phoneticDiv);
                         var explainDiv = document.createElement("span");
                         var explains = "<br/>";
@@ -106,8 +110,7 @@
 </head>
 
 <body id="body">
-    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px"
-                alt="返回首页" /></a></div>
+    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
     <div id="bar">
         <div id="btn">
             <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
