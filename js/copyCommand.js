@@ -2,10 +2,10 @@ const Store = require('electron-store');
 const store = new Store();//设置数据保存
 var autoCopyPaste = store.get('autoCopyPaste');
 
-function copySuccess() {
+function copySuccess(successText) {
     var copySuccessAlert = document.createElement("span");
     document.getElementById("body").appendChild(copySuccessAlert);
-    copySuccessAlert.innerText = "复制成功";
+    copySuccessAlert.innerText = successText;
     copySuccessAlert.id = "copySuccessAlert";
     copySuccessAlert.animate([
         { opacity: 0 },
@@ -23,7 +23,7 @@ function copySuccess() {
 document.onmouseup = function () {
     if (window.getSelection() != "" && window.getSelection() != " " && autoCopyPaste == 'auto') {
         if (document.execCommand("Copy")) {
-            copySuccess();//如果成功复制，显示弹窗
+            copySuccess("复制成功");//如果成功复制，显示弹窗
         }
     }
 };

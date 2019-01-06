@@ -71,7 +71,7 @@ ipcMain.on('window-englishExplains', function () {
   }
 })
 
-//窗口韦氏词典尺寸，通过ipc传递
+//窗口设置尺寸，通过ipc传递
 ipcMain.on('window-set', function () {
   if (win != null) {
     win.setContentSize(384, 512);

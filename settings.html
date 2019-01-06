@@ -20,7 +20,7 @@
 
 <body>
     <div id="btn-popup"><a href="index.html"><img src="res/icons/close.png" alt="关闭" /></a></div>
-    <div id="dict">
+    <div id="pane">
         <div id="wordTitle">设置</div>
         默认词典：
         <select name="defDic" id="defDic" class="transLanList" onchange="store.set('defDic', $('#defDic').val())">
@@ -36,7 +36,7 @@
         </select><br />
         <span id="smallSpan">如果启用，在查词页面选中文字将会自动复制到剪贴板，在翻译页面输入框中右键单击将会自动粘贴剪贴板中内容至框中。</span>
         <br /><br />
-        &copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')" id="backLink">Roderick
+        &copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')" class="backLink">Roderick
             Qiu</a>.
     </div>
     <script>

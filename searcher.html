@@ -33,8 +33,8 @@
                     break;
                 }
             }//拼写检查、输入字串格式化
-            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a>&nbsp;|&nbsp;您是打算 <a href=\"translator.html\" id=\"backLink\">翻译</a> 吗？</h3>";
-            else if (wordUse.length > 30) document.getElementById("dict").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html' class='backLink'>翻译</a> 吗？</h3>";
+            else if (wordUse.length > 30) document.getElementById("dict").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href='index.html' class='backLink'>返回</a></h3>";
             else {
                 var appKey = '44d3c65e009191c5';
                 var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
@@ -61,25 +61,26 @@
                         parentDiv.innerHTML = "";//清空原有内容
                         var wordShowDiv = document.createElement("span");
                         wordShowDiv.id = "wordTitle";
-                        wordShowDiv.innerHTML = "<img src=\"res/content/wordTitle.png\"/>&nbsp;" + wordUse;
+                        wordShowDiv.innerHTML = "<img src='res/content/wordTitle.png'/>&nbsp;" + wordUse;
                         parentDiv.appendChild(wordShowDiv);
                         var phoneticDiv = document.createElement("span");
                         phoneticDiv.id = "phonetic";
                         if (data.basic) {//如果输入单词
                             if (data.basic.phonetic) {
                                 var phonetic = "";
-                                if (data.basic["uk-speech"]) phonetic+="&nbsp;&nbsp;<a href='#' onclick='let audio = new Audio(); audio.src = \"" + data.basic["uk-speech"] + "\"; audio.play()' id='backLink'>";
+                                if (data.basic["uk-speech"]) phonetic += "&nbsp;&nbsp;<a href='#' onclick='let audio = new Audio(); audio.src = \"" + data.basic["uk-speech"] + "\"; audio.play()' class='backLink'>";
                                 if (data["basic"]["uk-phonetic"]) phonetic += "[" + data["basic"]["uk-phonetic"] + "]";
-                                if (data.basic["uk-speech"]) phonetic+="</a>";
+                                if (data.basic["uk-speech"]) phonetic += "</a>";
                                 if (data["basic"]["us-phonetic"] && data["basic"]["uk-phonetic"]) phonetic += ", ";
-                                if (data.basic["us-speech"]) phonetic+="<a href='#' onclick='let audio = new Audio(); audio.src = \"" + data.basic["us-speech"] + "\"; audio.play()' id='backLink'>";
+                                if (data.basic["us-speech"]) phonetic += "<a href='#' onclick='let audio = new Audio(); audio.src = \"" + data.basic["us-speech"] + "\"; audio.play()' class='backLink'>";
                                 if (data["basic"]["us-phonetic"]) phonetic += "[" + data["basic"]["us-phonetic"] + "]";
-                                if (data.basic["us-speech"]) phonetic+="</a>";
+                                if (data.basic["us-speech"]) phonetic += "</a>";
                                 phoneticDiv.innerHTML = phonetic;
                             }
                         }//音标+发音
                         parentDiv.appendChild(phoneticDiv);
                         var explainDiv = document.createElement("span");
+                        explainDiv.id = "explains";
                         var explains = "<br/>";
                         if (data.basic) {//如果输入单词
                             for (i in data.basic.explains) {
@@ -89,19 +90,21 @@
                             explainDiv.innerHTML = explains;//输出解释
                             parentDiv.appendChild(explainDiv);
                             var webDiv = document.createElement("span");
-                            webDiv.innerHTML = "<br/><br/><a href=\"searcher-englishExplains.html?word=" + wordUse + "\" id=\"backLink\">完整英英释义</a>";
+                            var webInfo = "<br/><br/><a href='searcher-englishExplains.html?word=" + wordUse + "' class='backLink'>完整英英释义</a>";
+                            webInfo += "&nbsp;&nbsp;<a href='javascript:seekDetail(\"" + wordUse + "\")' id='detailLink' class='backLink'>查看具体用法</a>";
+                            webDiv.innerHTML = webInfo;
                             parentDiv.appendChild(webDiv);//完整英英释义
                         } else {
                             if (data.translation != wordUse) {
                                 explainDiv.innerHTML = "<br/>" + data.translation;//输出翻译
                                 parentDiv.appendChild(explainDiv);
                             } else {
-                                document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                                document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href='index.html' class='backLink'>返回</a></h3>";
                             }
                         }
                     },
                     error: function () {
-                        document.getElementById("dict").innerHTML = "<br/><h2>无法建立与服务器的连接，请稍后再试。</h2><h3><a href=\"index.html\" id=\"backLink\">返回</a></h3>";
+                        document.getElementById("dict").innerHTML = "<br/><h2>无法建立与服务器的连接，请稍后再试。</h2><h3><a href'index.html' class='backLink'>返回</a></h3>";
                     }
                 });
             }
@@ -117,12 +120,51 @@
             <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
         </div>
     </div>
-    <div id="dict">
+    <div id="detailbox">
+        <div id="dict">
+            <br />
+            <h2>等待服务器响应...</h2>
+            <h3><a href="javascript:history.back(-1)" class="backLink">返回</a></h3>
+            <!-- 动态加入内容 -->
+        </div>
         <br />
-        <h2>等待服务器响应...</h2>
-        <h3><a href="javascript:history.back(-1)" id="backLink">返回</a></h3>
-        <!-- 动态加入内容 -->
+        <div id="detail">
+            <br />
+            <h2>等待服务器响应...</h2>
+            <h3><a href="javascript:seekDetail('cancel')" class="backLink">取消</a></h3>
+            <!-- 动态加入内容 -->
+        </div>
     </div>
+    <script>
+        const request = require('request');
+        const cheerio = require('cheerio');
+        const ipc2 = require('electron').ipcRenderer;
+        function seekDetail(wordUse) {
+            if ($("#detail").css("display") == "none") {//一函数多用，当还未展示时
+                $("#detail").css("display", "block");
+                $("#detailLink").text("隐藏具体用法");
+                request.get({ url: 'https://cn.bing.com/dict/search?q=' + encodeURI(wordUse) }, function (error, response, body) {
+                    if (body) {
+                        const $ = cheerio.load(body);
+                        if ($('div #pos_0').html()) {
+                            document.getElementById("detail").innerHTML = "<span class='gra'>具体用法：</span><br/><br/>" + $('div #pos_0').html();
+                        } else {
+                            copySuccess("对不起，找不到具体详解");//使用copySuccess的函数来显示信息
+                            document.getElementById("detail").innerHTML = "对不起，找不到具体详解。";
+                        }
+                    } else {
+                        copySuccess("对不起，发生了错误");//使用copySuccess的函数来显示信息
+                        document.getElementById("detail").innerHTML = "对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。";
+                    }
+                });//使用node.js::request获取远程词汇
+                ipc2.send('window-englishExplains');//调整尺寸
+            } else {//当已经展示了的时候
+                $("#detail").css("display", "none");
+                $("#detailLink").text("显示具体用法");
+                ipc2.send('window-dict');//调整尺寸
+            }
+        }
+    </script>
 </body>
 
 </html>

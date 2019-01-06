@@ -10,7 +10,7 @@ html,body{
     position: absolute;
     top: 45%; left: 45%;
 }
-#backLink{
+.backLink{
     color: #4a9af6;
     line-height: 20px;
 }
@@ -26,10 +26,10 @@ html,body{
     left: 45px; right: 45px;
     align-content: center;
     text-align: center;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
 }
-#main #searchbox{
+#searchbox{
     border: none;
     background-image: url(../content/base.png);
     outline:none;
@@ -38,9 +38,9 @@ html,body{
     font-size: 22px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
 }
-#main #searchselect{
+#searchselect{
     border: none;
     outline:none;
     width: 60px; height: 44px;
@@ -48,49 +48,56 @@ html,body{
     font-size: 14px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
 }
-#main #smallSpan{
+#smallSpan{
     font-size: 12px;
     color: #777777;
 }
 
 /* dictionary-content-area */
-#dict{
+#detailbox{
     position: absolute;
     transform: translateY(50px);
     left: 45px; right: 45px;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
 }
-#dict #wordTitle{
+#dict{
+    position: relative;
+}
+#wordTitle{
     color: #4a9af6;
     font-weight: bolder;
     font-size: 32px;
     line-height: 60px;
     letter-spacing: 0.5px;
 }
-#dict #phonetic{
+#phonetic{
     color: lightslategray;
     font-family: Arial, Helvetica, sans-serif;
 }
-#dict span{
-    font-size: 15.5px;
-}
-#dict #smallSpan{
-    font-size: 12px;
-    color: #777777;
-}
 
 /* bar (pop-up windows) */
+#pane{
+    position: absolute;
+    transform: translateY(50px);
+    left: 45px; right: 45px;
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
+    -webkit-user-select: text;
+}
 #btn-popup{
     position: fixed;
     top: 10px; right: 8px;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: none;
 }
 #btn-popup img{
     width: 28px; height: 28px;
+}
+#version{
+    font-size: 10px;
+    color: #333;
 }
 
 /* english-explains-area */
@@ -98,10 +105,10 @@ html,body{
     position: absolute;
     transform: translateY(50px);
     left: 45px; right: 45px;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
     overflow-y:scroll;/* 当溢出时，添加滚动条 */
-    height: 300px;
+    height: 320px;
     width: 90%;
 }
 #inscroll::-webkit-scrollbar-track{
@@ -117,37 +124,22 @@ html,body{
 #inscroll::-webkit-scrollbar-thumb:active{
     background-color: #4a9af68f;
 }
-#inscroll #wordTitle{
-    color: #4a9af6;
-    font-weight: bolder;
-    font-size: 32px;
-    line-height: 60px;
-    letter-spacing: 0.5px;
-}
-#inscroll #phonetic{
-    color: lightslategray;
-    font-family: Arial, Helvetica, sans-serif;
-}
 #inscroll #example{
     font-size: 14px;
     color: #4a9af6;
-}
-#inscroll #smallSpan{
-    font-size: 12px;
-    color: #777777;
 }
 
 /* bar */
 #btn{
     position: fixed;
     top: 10px; right: 8px;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: none;
 }
 #logo{
     position: fixed;
     top: 10px; left: 8px;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: none;
 }
 #bar a{
@@ -169,13 +161,13 @@ html,body{
 #transIn{
     align-items: center;
     width: 50%;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
 }
 #transOut{
     text-align: left; vertical-align: top;
     left: 55%; 
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
 }
 #transOutWord{
@@ -183,7 +175,7 @@ html,body{
     overflow-wrap: normal;
     overflow: scroll;
     position: absolute;
-    -webkit-app-region: no-drag;/* let this part clickable */
+    -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
 }
 #transOutWord::-webkit-scrollbar-track{
@@ -214,4 +206,57 @@ html,body{
     width: 100%; height: 30px;
     border: 2px solid #4a9af6;
     background-color: #fefefe;
+}
+
+/* searcher-detailed */
+#detail{
+    position: relative;
+    overflow-y:scroll;/* 当溢出时，添加滚动条 */
+    height: 120px;
+    display: none;
+    line-height: 18px;
+}
+#detail::-webkit-scrollbar-track{
+	background-color: #fefefe;
+}
+#detail::-webkit-scrollbar{
+	width: 12px;
+	background-color: #f5f5f5;
+}
+#detail::-webkit-scrollbar-thumb{
+	background-color: #5555558f;
+}
+#detail::-webkit-scrollbar-thumb:active{
+    background-color: #4a9af68f;
+}
+/* 以下元素均来自必应词典原文 */
+.comple{
+    font-weight: bold;
+}
+.bil,.val{
+    color: #333;
+}
+.bil_dis,.val_dis{
+    color: #4a9af6;
+    font-weight: bold;
+    font-size: 14px;
+    padding-right: .25em;
+    line-height: 19px;
+}
+.infor,.se_d,.def_pa,.idmdef_li{
+    color: #000;
+    font-size: 14px;
+}
+.gra{
+    color: #333;
+    font-size: 14px;
+    font-weight: bolder;
+    float: left;
+}
+.infor,.sen_com,.com_sep,.bil,.gra{
+    padding-right: .25em;
+}
+.bil_ex,.val_ex{
+    line-height: 24px;
+    color: #777;
 }
