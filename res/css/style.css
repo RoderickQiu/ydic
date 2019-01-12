@@ -99,6 +99,11 @@ html,body{
     font-size: 10px;
     color: #333;
 }
+.settingForm{
+    font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
+    font-size: 15px;
+    width: 120px; height: 30px;
+}
 
 /* english-explains-area */
 #inscroll{
@@ -108,7 +113,7 @@ html,body{
     -webkit-app-region: no-drag;/* 使元素可被点击 */
     -webkit-user-select: text;
     overflow-y:scroll;/* 当溢出时，添加滚动条 */
-    height: 320px;
+    height: 350px;
     width: 90%;
 }
 #inscroll::-webkit-scrollbar-track{

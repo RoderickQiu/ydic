@@ -15,15 +15,13 @@
         <div id="pane">
                 <center>
                         <img src="res/icons/yD-black.png" /><br />
-                        <b>你的词典</b><br />
+                        <b>yDic 你的词典</b><br />
                         <span id="version">
                                 版本号
                                 <script>document.write(require('./package.json').version);</script>&nbsp;|&nbsp;
                                 使用electron
                                 <script>
-                                        var electronVersion = require('./package.json').devDependencies.electron;
-                                        electronVersion = electronVersion.replace(/\^|\~|\>|\=/g, "");
-                                        document.write(electronVersion);
+                                        document.write(process.versions.electron);
                                 </script>
                         </span>
                         <br /><br />
