@@ -1,0 +1,20 @@
+@font-face {
+    font-family: S;
+    src: url('SourceHanSansCN-Regular.otf')
+}
+
+html,body {
+    font-family: "方正悠黑", "Source Han Sans CN", S, -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
+    background-color: #fefefe;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items:center;
+    height: 95%;
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: #4a9af6;
+}
