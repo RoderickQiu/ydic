@@ -33,8 +33,8 @@
                     break;
                 }
             }//拼写检查、输入字串格式化
-            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html' class='backLink'>翻译</a> 吗？</h3>";
-            else if (wordUse.length > 30) document.getElementById("dict").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href='index.html' class='backLink'>返回</a></h3>";
+            if (wordUse == "") document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href='index.html' class='backLink'>返回</a></h3>";
+            else if (wordUse.length > 30) document.getElementById("dict").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html?word=" + decodeURI(wordIn) + "' class='backLink'>翻译</a> 吗？</h3>";
             else {
                 var appKey = '44d3c65e009191c5';
                 var key = 'hnOtGbTefAX4I4MmXdAEDZXWBBsGQYQu';
@@ -99,7 +99,7 @@
                                 explainDiv.innerHTML = "<br/>" + data.translation;//输出翻译
                                 parentDiv.appendChild(explainDiv);
                             } else {
-                                document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href='index.html' class='backLink'>返回</a></h3>";
+                                document.getElementById("dict").innerHTML = "<br/><h2>请输入正确的英语单词或短语。</h2><h3><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html?word=" + wordUse + "' class='backLink'>翻译</a> 吗？</h3>";
                             }
                         }
                     },

@@ -32,7 +32,7 @@ html,body{
 #searchbox{
     border: none;
     background-image: url(../content/base.png);
-    outline:none;
+    outline: none;
     width: 450px; height: 48px;
     text-align: center;
     font-size: 22px;
@@ -41,8 +41,9 @@ html,body{
     -webkit-app-region: no-drag;/* 使元素可被点击 */
 }
 #searchselect{
-    border: none;
-    outline:none;
+    border: 0px;
+    outline: none;
+    background: none;
     width: 60px; height: 44px;
     text-align: center;
     font-size: 14px;
@@ -157,6 +158,12 @@ html,body{
 #bar img{
     width: 28px; height: 28px;
 }
+#barNeverOut a{
+    opacity: 1;
+}
+#barNeverOut img{
+    width: 28px; height: 28px;
+}/* 不自动隐藏的bar */
 
 /* translator page */
 #trans{
@@ -264,4 +271,8 @@ html,body{
 .bil_ex,.val_ex{
     line-height: 24px;
     color: #777;
+}
+/* 以下元素是为了优化显示而设置 */
+.p1-12{
+    color: #4a9af6;
 }

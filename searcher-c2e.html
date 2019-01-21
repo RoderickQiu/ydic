@@ -14,8 +14,9 @@
     <script src="js/copyCommand.js"></script>
     <script>
         var ipc = require('electron').ipcRenderer;
-        ipc.send('window-englishExplains');//调整尺寸
+        ipc.send('window-dict');//调整尺寸
         $(document).ready(function () {
+            $("#detail").css("display", "block");
             s = location.search.substr(1);
             a = s.split('&');
             var wordUse = '';
@@ -24,28 +25,29 @@
                 wordUse = b[1];
             }
             wordUse = decodeURI(wordUse);
-            $('#wordTitle').html(wordUse);
-            const request = require('request');
-            const cheerio = require('cheerio');
-            const ipc2 = require('electron').ipcRenderer;
-            request.get({ url: 'https://cn.bing.com/dict/search?q=' + encodeURI(wordUse) }, function (error, response, body) {
-                if (body) {
-                    const $ = cheerio.load(body);
-                    if ($('div #crossid').html()) {
-                        document.getElementById("inscroll").innerHTML = "<span id='wordTitle'>" + wordUse + "</span>"  +$('div #crossid').html();
+            if (wordUse.length > 30) document.getElementById("detail").innerHTML = "<br/><h2>对不起，您输入的单词长度超限。</h2><h3><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html?word=" + decodeURI(wordIn) + "' class='backLink'>翻译</a> 吗？</h3>";
+            else {
+                const request = require('request');
+                const cheerio = require('cheerio');
+                const ipc2 = require('electron').ipcRenderer;
+                request.get({ url: 'https://cn.bing.com/dict/search?q=' + encodeURI(wordUse) }, function (error, response, body) {
+                    if (body) {
+                        const $ = cheerio.load(body);
+                        if ($('div #crossid').html()) {
+                            document.getElementById("detail").innerHTML = "<span id='wordTitle'>" + wordUse + "</span>" + $('div #crossid').html();
+                        } else {
+                            document.getElementById("detail").innerHTML = "<h3>对不起，找不到对应的英文单词。<br/><br/><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html?word=" + wordUse + "' class='backLink'>翻译</a> 吗？</h3>";
+                        }
                     } else {
-                        copySuccess("对不起，找不到具体详解");//使用copySuccess的函数来显示信息
-                        document.getElementById("inscroll").innerHTML = "<h3>对不起，找不到具体详解。<br/><br/><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html' class='backLink'>翻译</a> 吗？</h3>";
+                        document.getElementById("detail").innerHTML = "<h3>对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。</h3>";
                     }
-                } else {
-                    copySuccess("对不起，发生了错误");//使用copySuccess的函数来显示信息
-                    document.getElementById("inscroll").innerHTML = "<h3>对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。</h3>";
-                }
-                $("#inscroll").css("display", "block");
-                $(".se_d").css("display","none");
-                $('.p1-12').attr("class","backLink");
-                $('a .p1-12').contents().unwrap().wrap('<span/>');
-            });
+                    $("#detail").css("height", "216px")
+                    $(".se_d").css("display", "none");
+                    $(".p1-12").each(function () {
+                        $(this).attr("href", "searcher.html?word=" + $(this).text());
+                    });//优化显示效果
+                });
+            }
         });
     </script>
 </head>
@@ -58,11 +60,13 @@
             <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
         </div>
     </div>
-    <div id="inscroll">
-        <br />
-        <h2>等待服务器响应...</h2>
-        <h3><a href="javascript:history.back(-1)" class="backLink">返回</a></h3>
-        <!-- 动态加入内容 -->
+    <div id="detailbox">
+        <div id="detail">
+            <br />
+            <h2>等待服务器响应...</h2>
+            <h3><a href="javascript:history.back(-1)" class="backLink">返回</a></h3>
+            <!-- 动态加入内容 -->
+        </div>
     </div>
     <br />
 </body>

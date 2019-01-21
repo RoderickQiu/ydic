@@ -26,8 +26,9 @@
         <select name="defDic" id="defDic" class="settingForm" onchange="store.set('defDic', $('#defDic').val())">
             <option value="yd" id="yd">英汉词典</option>
             <option value="mw" id="mw">英英词典</option>
+            <option value="by" id="by">汉英词典</option>
         </select><br />
-        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />英英词典更详细，数据源为<i>Merriam-Webster's Learner's Dictionary</i>；英汉词典比较简明，来源是有道词典。</span>
+        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />英英词典更详细，数据源为<i>Merriam-Webster's Learner's Dictionary</i>；英汉词典比较简明，来源是有道词典；汉英词典可以展示基础单词的英语释义结果，并可以跳转至英汉词典继续查询。</span>
         <br /><br />
         启用自动复制、粘贴：
         <select name="autoCopyPaste" id="autoCopyPaste" class="settingForm" onchange="store.set('autoCopyPaste', $('#autoCopyPaste').val())">
@@ -38,8 +39,16 @@
         <br /><br />
         设置快速显示、隐藏快捷键：
         <script>if (process.platform == 'darwin') document.write("Command"); else document.write("Control");//根据平台更换文字</script>+Shift+Alt+
-        <input name="hideOrShowAcc" id="hideOrShowAcc" class="settingForm" onchange="store.set('hideOrShowAcc',$('#hideOrShowAcc').val())" onkeyup="value=value.replace(/[^A-Z]/g,'');" maxlength="1"/><br />
+        <input name="hideOrShowAcc" id="hideOrShowAcc" class="settingForm" onchange="store.set('hideOrShowAcc',$('#hideOrShowAcc').val())"
+            onkeyup="value=value.replace(/[^A-Z]/g,'');" maxlength="1" /><br />
         <span id="smallSpan">设置快速显示或隐藏主面板的快捷键。只能输入一位大写字母。默认的设置是Y。<b>需要重启程序才能生效。</b></span>
+        <br /><br />
+        设置是否隐藏顶栏按钮：
+        <select name="hideOrNot" id="hideOrNot" class="settingForm" onchange="store.set('hideOrNot',$('#hideOrNot').val())">
+            <option value="hide" id="hide">隐藏</option>
+            <option value="neverOut" id="neverOut">不隐藏</option>
+        </select><br />
+        <span id="smallSpan">设置是否隐藏顶栏按钮。</span>
         <br /><br />
         &copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')" class="backLink">Roderick
             Qiu</a>.
@@ -47,7 +56,8 @@
     <script>
         var defDic = store.get('defDic');
         if (defDic == 'yd') $("#defDic").val("yd");
-        else $("#defDic").val("mw");//默认词典设置准备工作
+        else if (defDic == 'mw') $("#defDic").val("mw");
+        else if (defDic == 'by') $("#defDic").val("by");//默认词典设置准备工作
 
         var autoCopyPaste = store.get('autoCopyPaste');
         if (autoCopyPaste == 'disabled') $("#autoCopyPaste").val("disabled");
@@ -55,6 +65,10 @@
 
         var hideOrShowAcc = store.get('hideOrShowAcc');
         $("#hideOrShowAcc").val(hideOrShowAcc);//快速显示、隐藏准备工作 
+
+        var hideOrNot = store.get('hideOrNot');
+        if (hideOrNot == 'hide') $("#hideOrNot").val('hide');
+        else $("#hideOrNot").val('neverOut');//设置是否隐藏顶栏按钮准备工作 
     </script>
 </body>
 

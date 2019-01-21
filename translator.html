@@ -17,6 +17,19 @@
         const Store = require('electron-store');
         const store = new Store();//设置数据保存
         var autoCopyPaste = store.get('autoCopyPaste');
+        $(document).ready(function () {
+            s = location.search.substr(1);
+            a = s.split('&');
+            var wordUse = '';
+            for (i in a) {
+                b = a[i].split('=');
+                wordUse = b[1];
+            }
+            if (wordUse) {
+                $("#transArea").val(decodeURI(wordUse));
+                translator();
+            }
+        });
     </script>
 </head>
 

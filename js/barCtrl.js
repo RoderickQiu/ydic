@@ -1,3 +1,15 @@
+$(document).ready(function () {
+    const Store = require('electron-store');
+    const store = new Store();//设置数据保存
+    var hideOrNot = store.get('hideOrNot');
+    if (hideOrNot == 'undefined' || !hideOrNot) {
+        store.set('hideOrNot', 'hide');
+        hideOrNot = 'hide';
+    } else if (hideOrNot == 'neverOut') {
+        $("#bar").attr("id", "barNeverOut");
+    }
+});//设置是否要自动隐藏标题栏按钮
+
 function minimize() {
     var ipc = require('electron').ipcRenderer;
     ipc.send('window-min');

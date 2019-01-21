@@ -102,7 +102,7 @@
                         }
                     }
 
-                    if (!isThereAnyContent) document.getElementById("inscroll").innerHTML = "<br/><h2>对不起，这个词暂时还不在词库中。</h2><h3><a href='index.html' class='backLink'>返回</a></h3>";
+                    if (!isThereAnyContent) document.getElementById("inscroll").innerHTML = "<br/><h2>对不起，这个词暂时还不在词库中。</h2><h3><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html?word=" + wordUse + "' class='backLink'>翻译</a> 吗？</h3>";
                     explains = explains.replace(/{bc}/g, "- ");//转换{bc}
                     explains = explains.replace(/{it}/g, "<i>");//转换{it}
                     explains = explains.replace(/{\/it}/g, "</i>");//转换{/it}
