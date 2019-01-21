@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="res/css/style.css" />
+    <title>Search Result</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/md5.min.js"></script>
+    <script src="js/barCtrl.js"></script>
+    <script src="js/copyCommand.js"></script>
+    <script>
+        var ipc = require('electron').ipcRenderer;
+        ipc.send('window-englishExplains');//调整尺寸
+        $(document).ready(function () {
+            s = location.search.substr(1);
+            a = s.split('&');
+            var wordUse = '';
+            for (i in a) {
+                b = a[i].split('=');
+                wordUse = b[1];
+            }
+            wordUse = decodeURI(wordUse);
+            $('#wordTitle').html(wordUse);
+            const request = require('request');
+            const cheerio = require('cheerio');
+            const ipc2 = require('electron').ipcRenderer;
+            request.get({ url: 'https://cn.bing.com/dict/search?q=' + encodeURI(wordUse) }, function (error, response, body) {
+                if (body) {
+                    const $ = cheerio.load(body);
+                    if ($('div #crossid').html()) {
+                        document.getElementById("inscroll").innerHTML = "<span id='wordTitle'>" + wordUse + "</span>"  +$('div #crossid').html();
+                    } else {
+                        copySuccess("对不起，找不到具体详解");//使用copySuccess的函数来显示信息
+                        document.getElementById("inscroll").innerHTML = "<h3>对不起，找不到具体详解。<br/><br/><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html' class='backLink'>翻译</a> 吗？</h3>";
+                    }
+                } else {
+                    copySuccess("对不起，发生了错误");//使用copySuccess的函数来显示信息
+                    document.getElementById("inscroll").innerHTML = "<h3>对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。</h3>";
+                }
+                $("#inscroll").css("display", "block");
+                $(".se_d").css("display","none");
+                $('.p1-12').attr("class","backLink");
+                $('a .p1-12').contents().unwrap().wrap('<span/>');
+            });
+        });
+    </script>
+</head>
+
+<body id="body">
+    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
+    <div id="bar">
+        <div id="btn">
+            <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
+            <a href="javascript:window.close()"><img src="res/icons/close.png" alt="关闭窗口" /></a>
+        </div>
+    </div>
+    <div id="inscroll">
+        <br />
+        <h2>等待服务器响应...</h2>
+        <h3><a href="javascript:history.back(-1)" class="backLink">返回</a></h3>
+        <!-- 动态加入内容 -->
+    </div>
+    <br />
+</body>
+
+</html>
+
+<!-- 参考：https://ai.youdao.com/docs/doc-trans-api.s -->
