@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RoderickQiu/yDic.git"
+    "url": "https://github.com/RoderickQiu/ydic.git"
   },
   "author": "RoderickQiu",
   "license": "MIT",
   "homepage": "https://ydic.js.org",
-  "helppage": "https://github.com/RoderickQiu/yDic/blob/master/README.md",
+  "helppage": "https://github.com/RoderickQiu/ydic/blob/master/README.md",
   "appId": "com.scrisstudio.ydic",
   "copyright": "© Roderick Qiu",
   "productName": "yDic",
