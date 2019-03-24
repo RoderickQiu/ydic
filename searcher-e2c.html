@@ -7,7 +7,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+    <!-- 解决electron环境下jQuery缺失问题 -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/md5.min.js"></script>
     <script src="js/barCtrl.js"></script>
@@ -113,7 +114,8 @@
 </head>
 
 <body id="body">
-    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
+    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a>
+    </div>
     <div id="bar">
         <div id="btn">
             <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
@@ -154,7 +156,7 @@
                         }
                     } else {
                         copySuccess("对不起，发生了错误");//使用copySuccess的函数来显示信息
-                        document.getElementById("detail").innerHTML = "对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。";
+                        document.getElementById("detail").innerHTML = "对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。不过这也可能是我们正在使用的必应服务器错误。";
                     }
                 });//使用node.js::request获取远程词汇
                 ipc2.send('window-englishExplains');//调整尺寸

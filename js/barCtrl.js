@@ -3,8 +3,8 @@ $(document).ready(function () {
     const store = new Store();//设置数据保存
     var hideOrNot = store.get('hideOrNot');
     if (hideOrNot == 'undefined' || !hideOrNot) {
-        store.set('hideOrNot', 'hide');
-        hideOrNot = 'hide';
+        store.set('hideOrNot', 'neverOut');
+        hideOrNot = 'neverOut';
     } else if (hideOrNot == 'neverOut') {
         $("#bar").attr("id", "barNeverOut");
     }

@@ -1,6 +1,6 @@
 {
   "name": "ydic",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Your dictionary.",
   "main": "js/main.js",
   "scripts": {
@@ -13,20 +13,21 @@
   },
   "author": "RoderickQiu",
   "license": "MIT",
-  "homepage": "https://ydic.js.org",
+  "homepage": "https://ydic.scris.top/",
   "helppage": "https://github.com/RoderickQiu/ydic/blob/master/README.md",
   "appId": "com.scrisstudio.ydic",
   "copyright": "© Roderick Qiu",
   "productName": "yDic",
   "dependencies": {
-    "electron-store": "^2.0.0",
-    "fs": ">0.0.0",
+    "ajv": "^6.10.0",
     "cheerio": "^1.0.0-rc.2",
+    "electron-store": "^3.0.0",
+    "fs": ">0.0.0",
     "request": "^2.81.0"
   },
   "devDependencies": {
-    "electron": "^4.0.1",
-    "electron-builder": "^20.38.4"
+    "electron": "^4.1.1",
+    "electron-builder": "^20.39.0"
   },
   "build": {
     "win": {

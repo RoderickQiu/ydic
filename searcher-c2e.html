@@ -7,7 +7,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+    <!-- 解决electron环境下jQuery缺失问题 -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/md5.min.js"></script>
     <script src="js/barCtrl.js"></script>
@@ -39,7 +40,7 @@
                             document.getElementById("detail").innerHTML = "<h3>对不起，找不到对应的英文单词。<br/><br/><a href='index.html' class='backLink'>返回</a>&nbsp;|&nbsp;您是打算 <a href='translator.html?word=" + wordUse + "' class='backLink'>翻译</a> 吗？</h3>";
                         }
                     } else {
-                        document.getElementById("detail").innerHTML = "<h3>对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。</h3>";
+                        document.getElementById("detail").innerHTML = "<h3>对不起，发生了错误。<br/>请检查网络和代理设置。如果此问题一直出现，请联系项目开发者。不过这也可能是我们正在使用的必应服务器错误。</h3>";
                     }
                     $("#detail").css("height", "216px")
                     $(".se_d").css("display", "none");
@@ -53,7 +54,8 @@
 </head>
 
 <body id="body">
-    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a></div>
+    <div id="logo"><a href="index.html"><img src="res/icons/previous.png" width="40px" height="40px" alt="返回首页" /></a>
+    </div>
     <div id="bar">
         <div id="btn">
             <a href="javascript:minimize()"><img src="res/icons/minimize.png" alt="最小化" /></a>
@@ -72,5 +74,3 @@
 </body>
 
 </html>
-
-<!-- 参考：https://ai.youdao.com/docs/doc-trans-api.s -->

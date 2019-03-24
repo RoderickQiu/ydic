@@ -31,13 +31,14 @@ html,body{
 }
 #searchbox{
     border: none;
-    background-image: url(../content/base.png);
     outline: none;
+    background-image: url(../content/base.png);
     width: 450px; height: 48px;
     text-align: center;
     font-size: 22px;
     background-color: #fefefe;
     font-family: "Source Han Sans CN", -apple-system, "Microsoft YaHei UI", "微软雅黑", sans-serif;
+    -webkit-appearance: none;
     -webkit-app-region: no-drag;/* 使元素可被点击 */
 }
 #searchselect{
@@ -155,14 +156,11 @@ html,body{
     animation: showBtn 0.5s;
     opacity: 1;
 }/* 自动隐藏按钮 */
-#bar img{
-    width: 28px; height: 28px;
+#bar img, #barNeverOut img, #logo img{
+    width: 32px; height: 32px;
 }
 #barNeverOut a{
     opacity: 1;
-}
-#barNeverOut img{
-    width: 28px; height: 28px;
 }/* 不自动隐藏的bar */
 
 /* translator page */
