@@ -22,8 +22,8 @@
     "ajv": "^6.10.0",
     "cheerio": "^1.0.0-rc.2",
     "electron-store": "^3.0.0",
-    "fs": ">0.0.0",
-    "request": "^2.81.0"
+    "fs": "^0.0.1-security",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "electron": "^4.1.1",
@@ -32,7 +32,7 @@
   "build": {
     "win": {
       "target": [
-        "zip"
+        "dir"
       ],
       "icon": "res/icons/iconWin.ico"
     }
