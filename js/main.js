@@ -40,31 +40,31 @@ app.on('will-quit', () => {
 
 
 
-  // Electron 会在初始化后并准备
-  // 创建浏览器窗口时，调用这个函数。
-  // 部分 API 在 ready 事件触发后才能使用。
-  app.on('ready', () => {
-    createWindow()
+// Electron 会在初始化后并准备
+// 创建浏览器窗口时，调用这个函数。
+// 部分 API 在 ready 事件触发后才能使用。
+app.on('ready', () => {
+  createWindow()
 
-    tray = new Tray('./res/icons/iconWin.ico')
-    const contextMenu = Menu.buildFromTemplate([
-      { label: '退出', click: () => { app.quit() } }
-    ])
-    tray.setToolTip('yDic 你的词典')
-    tray.setContextMenu(contextMenu)
-    tray.on('click', () => {
-      win.isVisible() ? win.hide() : win.show()
-    })//托盘菜单
+  tray = new Tray('./res/icons/iconWin.ico')
+  const contextMenu = Menu.buildFromTemplate([
+    { label: '退出', click: () => { app.quit() } }
+  ])
+  tray.setToolTip('yDic 你的词典')
+  tray.setContextMenu(contextMenu)
+  tray.on('click', () => {
+    win.isVisible() ? win.hide() : win.show()
+  })//托盘菜单
 
-    var hideOrShowAcc = store.get('hideOrShowAcc');
-    if (hideOrShowAcc == 'undefined' || !hideOrShowAcc) {
-      store.set('hideOrShowAcc', 'Y');
-      hideOrShowAcc = 'Y';
-    }
-    globalShortcut.register('CommandOrControl+Alt+Shift+' + hideOrShowAcc, () => {
-      win.isVisible() ? win.hide() : win.show()
-    })//注册全局快捷键：显示/隐藏
-  })
+  var hideOrShowAcc = store.get('hideOrShowAcc');
+  if (hideOrShowAcc == 'undefined' || !hideOrShowAcc) {
+    store.set('hideOrShowAcc', 'Y');
+    hideOrShowAcc = 'Y';
+  }
+  globalShortcut.register('CommandOrControl+Alt+Shift+' + hideOrShowAcc, () => {
+    win.isVisible() ? win.hide() : win.show()
+  })//注册全局快捷键：显示/隐藏
+})
 
 app.on('activate', () => {
   // 在macOS上，当单击dock图标并且没有其他窗口打开时，
@@ -92,5 +92,12 @@ ipcMain.on('window-englishExplains', function () {
   if (win != null) {
     win.setContentSize(768, 450)
     win.center()
+  }
+})
+
+//返回首页
+ipcMain.on('back-home', function () {
+  if (win != null) {
+    win.loadFile("index.html")
   }
 })

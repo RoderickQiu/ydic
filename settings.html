@@ -7,7 +7,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script><!-- 解决electron环境下jQuery缺失问题 -->
+    <script>
+        if (typeof module === 'object') {
+            window.module = module; module = undefined;
+        }
+    </script><!-- 解决electron环境下jQuery缺失问题 -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/barCtrl.js"></script>
     <script>
@@ -28,29 +32,39 @@
             <option value="mw" id="mw">英英词典</option>
             <option value="by" id="by">汉英词典</option>
         </select><br />
-        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />英英词典更详细，数据源为<i>Merriam-Webster's Learner's Dictionary</i>；英汉词典比较简明，来源是有道词典；汉英词典可以展示基础单词的英语释义结果，并可以跳转至英汉词典继续查询。</span>
+        <span id="smallSpan">选择在查询单词时，优先展示来自哪本词典的结果。<br />英英词典更详细，数据源为<i>Merriam-Webster's Learner's
+                Dictionary</i>；英汉词典比较简明，来源是有道词典；汉英词典可以展示基础单词的英语释义结果，并可以跳转至英汉词典继续查询。</span>
         <br /><br />
         启用自动复制、粘贴：
-        <select name="autoCopyPaste" id="autoCopyPaste" class="settingForm" onchange="store.set('autoCopyPaste', $('#autoCopyPaste').val())">
+        <select name="autoCopyPaste" id="autoCopyPaste" class="settingForm"
+            onchange="store.set('autoCopyPaste', $('#autoCopyPaste').val())">
             <option value="disabled" id="disabled">关闭</option>
             <option value="auto" id="auto">启用</option>
         </select><br />
         <span id="smallSpan">如果启用，在查词页面选中文字将会自动复制到剪贴板，在翻译页面输入框中右键单击将会自动粘贴剪贴板中内容至框中。</span>
         <br /><br />
         设置快速显示、隐藏快捷键：
-        <script>if (process.platform == 'darwin') document.write("Command"); else document.write("Control");//根据平台更换文字</script>+Shift+Alt+
-        <input name="hideOrShowAcc" id="hideOrShowAcc" class="settingForm" onchange="store.set('hideOrShowAcc',$('#hideOrShowAcc').val())"
-            onkeyup="value=value.replace(/[^A-Z]/g,'');" maxlength="1" /><br />
+        <script>if (process.platform == 'darwin') document.write("Command"); else document.write("Control");//根据平台更换文字</script>
+        &nbsp;+&nbsp;Shift&nbsp;+&nbsp;Alt&nbsp;+&nbsp;
+        <input name="hideOrShowAcc" id="hideOrShowAcc" class="settingForm"
+            onchange="store.set('hideOrShowAcc',$('#hideOrShowAcc').val())" onkeyup="value=value.replace(/[^A-Z]/g,'');"
+            maxlength="1" /><br />
         <span id="smallSpan">设置快速显示或隐藏主面板的快捷键。只能输入一位大写字母。默认的设置是Y。<b>需要重启程序才能生效。</b></span>
         <br /><br />
         设置是否隐藏顶栏按钮：
-        <select name="hideOrNot" id="hideOrNot" class="settingForm" onchange="store.set('hideOrNot',$('#hideOrNot').val())">
+        <select name="hideOrNot" id="hideOrNot" class="settingForm"
+            onchange="store.set('hideOrNot',$('#hideOrNot').val())">
             <option value="hide" id="hide">隐藏</option>
             <option value="neverOut" id="neverOut">不隐藏</option>
         </select><br />
         <span id="smallSpan">设置是否隐藏顶栏按钮。</span>
         <br /><br />
-        &copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')" class="backLink">Roderick
+        我们默认开启查询界面的快速返回首页快捷键
+        <script>if (process.platform == 'darwin') document.write("Command"); else document.write("Control");//根据平台更换文字</script>
+        &nbsp;+&nbsp;B。
+        <br /><br />
+        &copy; <a href="javascript:require('electron').shell.openExternal('https://roderickqiu.scris.top/')"
+            class="backLink">Roderick
             Qiu</a>.
     </div>
     <script>

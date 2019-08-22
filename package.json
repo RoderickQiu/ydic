@@ -1,6 +1,6 @@
 {
   "name": "ydic",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Your dictionary.",
   "main": "js/main.js",
   "scripts": {
@@ -23,10 +23,11 @@
     "cheerio": "^1.0.0-rc.2",
     "electron-store": "^3.0.0",
     "fs": "^0.0.1-security",
+    "mousetrap": "^1.6.3",
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "electron": "^4.1.1",
+    "electron": "^4.2.8",
     "electron-builder": "^20.39.0"
   },
   "build": {
